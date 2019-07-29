@@ -8,13 +8,23 @@
                 <div class="card-header text-md-right">تسجيل بيانات</div>
 
                 <div class="card-body">
-                    <form action="/p" enctype="multipart/form-data" method="POST">
+                    <form action="/person" enctype="multipart/form-data" method="POST">
                         @csrf
                         @if($errors->any())
                             <ul dir="rtl" class="text-right alert alert-danger">
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
                                 @endforeach
+                            </ul>
+                        @endif
+                        @if(session()->has('success'))
+                            <ul dir="rtl" class="text-right alert alert-success">
+                                <li>{{ session()->get('success') }}</li>
+                            </ul>
+                        @endif
+                        @if(session()->has('failure'))
+                            <ul dir="rtl" class="text-right alert alert-danger">
+                                <li>{{ session()->get('failure') }}</li>
                             </ul>
                         @endif
                         <div class="form-group row">
@@ -69,7 +79,7 @@
                                     </span>
                                 @enderror
                             </div>
-                            
+
                             <label for="email" class="col-md-4 col-form-label text-md-left">البريد الالكتروني</label>
                         </div>
 
@@ -203,14 +213,15 @@
                         </div>
 
                         <div class="form-group generateHusbandWifeData"></div>
-                        <div class="socialStateDiv genderssn form-group row" >
+
+                        <div class="genderssn form-group row" >
                             <div class="col-md-6 offset-md-2">
                                 <input id="wifessn" type="number" min="0" oninput="validity.valid||(value='');" class="form-control @error('wifessn') is-invalid @enderror" name="wifessn" value="{{ old('wifessn') }}" required autocomplete="wifessn" autofocus>
 
                                 @error('wifessn')
                                 <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                             <label for="wifessn" class="col-md-4 col-form-label text-md-left"> الرقم القومي للزوجة</label>

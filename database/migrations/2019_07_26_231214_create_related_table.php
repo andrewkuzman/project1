@@ -14,14 +14,10 @@ class CreateRelatedTable extends Migration
     public function up()
     {
         Schema::create('related', function (Blueprint $table) {
-            $table->string('fatherssn')->primary();
-            $table->string('memberssn')->unique();
+            $table->string('memberssn')->primary();
             $table->string('memberType');
+            $table->string('husbandssn');
             $table->timestamps();
-        });
-        Schema::table('related', function (Blueprint $table) {
-            $table->foreign('fatherssn')->references('ssn')->on('people');
-            $table->foreign('memberssn')->references('ssn')->on('people');
         });
     }
 

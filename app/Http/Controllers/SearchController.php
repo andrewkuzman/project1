@@ -16,13 +16,12 @@ class SearchController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index()
-    {
-        return view('/get/search');
+    public function search(){
+        return view('search');
+    }
+
+    public function prepare(Request $request){
+        dd(request()->all());
+
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Support\Facades\DB;
 class CreatePersonRequest extends FormRequest
 {
     /**
@@ -43,7 +43,7 @@ class CreatePersonRequest extends FormRequest
             'ssn' =>'required|unique:people|size:14',
             'mobile' => 'required|unique:people|size:11',
             'email' => 'required|unique:people|email|max:50',
-            'motherName' => 'required|max:40',
+            'motherName' => 'required|alpha|max:40',
             'gender' => 'required|in:gender_male,gender_female',
             'birthDate' => 'required|date|before:today',
             'edcQual' => 'required|in:عالي,فوق المتوسط,متوسط,ثانوي,اعدادي,ابتدائي,بدون مؤهل',
@@ -53,7 +53,7 @@ class CreatePersonRequest extends FormRequest
             'building' => 'required|max:25',
             'socialState' => 'required|in:socialState_single,socialState_married,socialState_widow',
             'church' => 'required|max:35',
-            'confessFather' => 'required|max:40',
+            'confessFather' => 'required|alpha|max:40',
             'personalPic' => 'required|image|max:2048',
             'servingType' => 'in:ايتام,ابتدائي,اعدادي,ثانوي,شباب,اختار,اخوة الرب,مسنين',
         ];
@@ -66,15 +66,26 @@ class CreatePersonRequest extends FormRequest
         if($this->request->all()['socialState'] != "socialState_single"){
             $rules ['numberofChildren'] = 'required|max:15';
             $rules ['marriageDate'] = 'required|before:today|date|greater_year:birthDate';
+            $editedRequest = $this->request->all();
+            $editedRequest['memberType'] = "wife";
+            $this->request->replace($editedRequest);
 
             if ($this->request->all()['gender'] == "gender_male"){
                 $rules ['wifessn'] = 'required|unique:related,memberssn|size:14|not_in:'.$this->request->all()['ssn'];
+                $checkAlreadyExist = DB::table('related')->where('memberssn', $this->request->all()['wifessn'])->value('memberssn');
+                if($checkAlreadyExist == null){
+                    $rules ['memberType'] = 'unique:related,memberType,NULL,memberssn,husbandssn,'.$this->request->all()['ssn'];
+                }
                 for ($i = 1; $i <= $this->all()['numberofChildren']; $i++){
                     $rules ['childssn' . $i] = 'required|unique:related,memberssn|unique:people,ssn|size:14|not_in:'.$this->request->all()['ssn'].','.$this->request->all()['wifessn'].','.self::childValidation($this->request->all()['numberofChildren'],$i);
                 }
             }
             else{
-                $rules ['husbandssn'] = 'required|unique:related,memberssn|size:14|not_in:'.$this->request->all()['ssn'];
+                $rules ['husbandssn'] = 'required|size:14|not_in:'.$this->request->all()['ssn'];
+                $checkAlreadyExist = DB::table('related')->where('memberssn', $this->request->all()['ssn'])->value('memberssn');
+                if($checkAlreadyExist == null){
+                    $rules ['memberType'] = 'unique:related,memberType,NULL,memberssn,husbandssn,'.$this->request->all()['husbandssn'];
+                }
                 for ($i = 1; $i <= $this->all()['numberofChildren']; $i++){
                     $rules ['childssn' . $i] = 'required|unique:related,memberssn|size:14|not_in:'.$this->request->all()['ssn'].','.$this->request->all()['husbandssn'].','.self::childValidation($this->request->all()['numberofChildren'],$i);
                 }
@@ -122,7 +133,7 @@ class CreatePersonRequest extends FormRequest
             'wifessn.size' => 'يجب ان يتكون الرقم القومي للزوجة من 14 رقم.',
             'wifessn.not_in' => 'الرقم القومي للزوجة غير صحيح برجاء اعادة ادخال الرقم القومي للزوجة و التأكد منه.',
             'husbandssn.required' => 'برجاء ادخال الرقم القومي للزوج.',
-            'husbandssn.unique' => 'هذا الرقم القومي مسجل بالفعل برجاء اعادة ادخال الرقم القومي للزوج و التأكد منه.',
+            'memberType.unique' => 'الرقم القومي للزوج/الزوجة مسجل بالفعل لشخص اخر برجاء اعادة ادخال الرقم القومي للزوج/الزوجة و التأكد منه.',
             'husbandssn.size' => 'يجب ان يتكون الرقم القومي للزوج من 14 رقم.',
             'husbandssn.not_in' => 'الرقم القومي للزوج غير صحيح برجاء اعادة ادخال الرقم القومي للزوج و التأكد منه.',
             'childssn1.required' => 'برجاء ادخال الرقم القومي للابن الاول.',

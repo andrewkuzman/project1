@@ -18,5 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/p/create', 'PersonsController@create')->name('persons.create');
-Route::post('/p', 'PersonsController@store')->name('persons.store');
+Route::resource('person', 'PersonsController',
+    ['only' => ['create', 'show', 'store']]);
+Route::get('search', 'SearchController@search')->name('search');
+Route::get('/search/prepare', 'SearchController@prepare')->name('search.prepare');

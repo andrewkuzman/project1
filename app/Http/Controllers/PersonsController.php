@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreatePersonRequest;
 use App\Person;
+use App\Related;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use mysql_xdevapi\Exception;
 
 class PersonsController extends Controller
 {
@@ -30,8 +33,12 @@ class PersonsController extends Controller
 
     public function store(CreatePersonRequest $request)
     {
+        $successRelated = true;
+        $successPerson = true;
+        $img_path = 'storage/' . request('personalPic')->store('uploads','public');
         $data = $request->all();
         $person = new Person();
+        $related = new Related();
         $person->fullName = $data['name'];
         $person->ssn = $data['ssn'];
         $person->mobile = $data['mobile'];
@@ -45,7 +52,7 @@ class PersonsController extends Controller
         $person->building = $data['building'];
         $person->church = $data['church'];
         $person->confessFather = $data['confessFather'];
-        $person->img_url = "HELLO";
+        $person->img_url = $img_path;
         $person->servingType = $data['servingType'];
         $person->deaconLevel = $data['deaconLevel'];
         if ($data['gender'] == "gender_male"){
@@ -56,20 +63,53 @@ class PersonsController extends Controller
         }
         if ($data['socialState'] == "socialState_single"){
             $person->socialState = "single";
-            $person->marriageDate = "";
-            $person->numOfChildren = "";
-        }
-        else if($data['socialState'] == "socialState_married"){
-            $person->socialState = "married";
-            $person->marriageDate = $data['marriageDate'];
-            $person->numOfChildren = $data['numberofChildren'];
+            $person->marriageDate = null;
+            $person->numOfChildren = null;
         }
         else{
-            $person->socialState = "widow";
             $person->marriageDate = $data['marriageDate'];
             $person->numOfChildren = $data['numberofChildren'];
+            if ($data['socialState'] == "socialState_married"){
+                $person->socialState = "married";
+            }
+            else{
+                $person->socialState = "widow";
+            }
+            if ($data['gender'] == "gender_male"){
+                $check = DB::table('related')->where('memberssn', $data['wifessn'])->value('memberssn');
+                if ($check == null){
+                    $related->memberssn=$data['wifessn'];
+                    $related->memberType="wife";
+                    $related->husbandssn=$data['ssn'];
+                    $successRelated = $related->save();
+                }
+            }
+            else{
+                $check = DB::table('related')->where('husbandssn', $data['husbandssn'])->value('memberssn');
+                if ($check == null){
+                    $related->memberssn=$data['ssn'];
+                    $related->memberType="wife";
+                    $related->husbandssn=$data['husbandssn'];
+                    $successRelated = $related->save();
+                }
+            }
         }
-        $person->save();
-        //dd($request->all());
+        try{
+            $successPerson = $person->save();
+        }
+        catch (Exception $e){
+            if(file_exists($img_path)) {
+                @unlink($img_path);
+            }
+            return redirect()->back()->with('failure','حدث خطأ في تسجيل البيانات, برجاء مراجعة البيانات و اعادة ادخالها في وقت اخر .');
+        }
+        if ($successPerson && $successRelated){
+            return redirect()->back()->with('success', 'تم تسجيل البيانات بنجاح .');
+        }else{
+            if(file_exists($img_path)) {
+                @unlink($img_path);
+            }
+            return redirect()->back()->with('failure','حدث خطأ في تسجيل البيانات, برجاء مراجعة البيانات و اعادة ادخالها في وقت اخر .');
+        }
     }
 }

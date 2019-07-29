@@ -1,5 +1,5 @@
 //To check which gender is selected in gender radio button
-function checkGender(){    
+function checkGender(){
     $(".gender").click(function(){
         $(".genderssn").remove();
         if($('#gender_female').is(':checked')){
@@ -109,10 +109,10 @@ function preventFuture(){
     var yyyy = today.getFullYear();
      if(dd<10){
             dd='0'+dd
-        } 
+        }
         if(mm<10){
             mm='0'+mm
-        } 
+        }
 
     today = yyyy+'-'+mm+'-'+dd;
     $(".date").attr("max", today);
@@ -132,14 +132,14 @@ function preventPast(){
 //To write only Arabic letters in text input
 function arabicOnly(e){
   var unicode=e.charCode? e.charCode : e.keyCode;
-  if (unicode!==8){ //if the key isn't the backspace key (which we should allow)
+  if (unicode!==8 && unicode!==32){ //if the key isn't the backspace or the whitespace key (which we should allow)
       if (unicode < 0x0600 || unicode > 0x06FF) //if not arabic
         return false; //disable key press
   }
 }
 
 //To choose search by name
-function searchByName(){    
+function searchByName(){
     $(".nameSearchOption").click(function(){
         if($('#nameSearchNo').is(':checked')){
             $(".searchNameDiv").attr("hidden", true);
@@ -152,7 +152,7 @@ function searchByName(){
 }
 
 //To choose search by ssn
-function searchByssn(){    
+function searchByssn(){
     $(".ssnSearchOption").click(function(){
         if($('#ssnSearchNo').is(':checked')){
             $(".searchssnDiv").attr("hidden", true);
@@ -165,7 +165,7 @@ function searchByssn(){
 }
 
 //To choose search by mobile number
-function searchByMobile(){    
+function searchByMobile(){
     $(".mobileSearchOption").click(function(){
         if($('#mobileSearchNo').is(':checked')){
             $(".searchMobileDiv").attr("hidden", true);
@@ -178,7 +178,7 @@ function searchByMobile(){
 }
 
 //To choose search by email address
-function searchByEmail(){    
+function searchByEmail(){
     $(".emailSearchOption").click(function(){
         if($('#emailSearchNo').is(':checked')){
             $(".searchEmailDiv").attr("hidden", true);
@@ -191,7 +191,7 @@ function searchByEmail(){
 }
 
 //To choose search by mother's name
-function searchByMother(){    
+function searchByMother(){
     $(".motherSearchOption").click(function(){
         if($('#motherSearchNo').is(':checked')){
             $(".searchMotherDiv").attr("hidden", true);
@@ -204,7 +204,7 @@ function searchByMother(){
 }
 
 //To prevent gender being unchecked
-function preventGenderUncheck(){    
+function preventGenderUncheck(){
 $("#gender_femaleSearch").on("click", function (e) {
     var checkbox = $("#gender_maleSearch");
     if (!(checkbox.is(":checked"))) {
@@ -224,7 +224,7 @@ $("#gender_maleSearch").on("click", function (e) {
 });}
 
 //To choose search by birth date
-function searchByBirthDate(){    
+function searchByBirthDate(){
     $(".birthDateSearchOption").click(function(){
         if($('#birthDateSearchNo').is(':checked')){
             $(".searchBirthDateDiv").attr("hidden", true);
@@ -237,7 +237,7 @@ function searchByBirthDate(){
 }
 
 //To choose search by educational qualification
-function searchByEdcQual(){    
+function searchByEdcQual(){
     $(".edcQualSearchOption").click(function(){
         if($('#edcQualSearchNo').is(':checked')){
             $(".searchEdcQualDiv").attr("hidden", true);
@@ -256,7 +256,7 @@ function searchByEdcQual(){
 }
 
 //To choose search by educational qualification
-function searchByAddress(){    
+function searchByAddress(){
     $(".addressSearchOption").click(function(){
         if($('#addressSearchNo').is(':checked')){
             $(".searchAddressDiv").attr("hidden", true);
@@ -272,7 +272,7 @@ function searchByAddress(){
 }
 
 //To prevent social state being unchecked
-function preventSocialStateUncheck(){    
+function preventSocialStateUncheck(){
 $("#socialStateSearch_single").on("click", function (e) {
     var checkbox1 = $("#socialStateSearch_married");
     var checkbox2 = $("#socialStateSearch_widow");
@@ -304,7 +304,7 @@ $("#socialStateSearch_widow").on("click", function (e) {
 });}
 
 //To choose search by wife or husband name
-function searchByHusband_wifeName(){    
+function searchByHusband_wifeName(){
     $(".husband_wifeNameSearchOption").click(function(){
         if($('#husband_wifeNameSearchNo').is(':checked')){
             $(".searchHusband_wifeDiv").attr("hidden", true);
@@ -317,7 +317,7 @@ function searchByHusband_wifeName(){
 }
 
 //To choose search by marriage date
-function searchByMarriageDate(){    
+function searchByMarriageDate(){
     $(".marriageDateSearchOption").click(function(){
         if($('#marriageDateSearchNo').is(':checked')){
             $(".searchMarriageDateDiv").attr("hidden", true);
@@ -330,7 +330,7 @@ function searchByMarriageDate(){
 }
 
 //To choose search by number of children
-function searchByNumberofChildren(){    
+function searchByNumberofChildren(){
     $(".numberofChildrenSearchOption").click(function(){
         if($('#numberofChildrenSearchNo').is(':checked')){
             $(".searchNumberofChildrenDiv").attr("hidden", true);
@@ -343,7 +343,7 @@ function searchByNumberofChildren(){
 }
 
 //To choose search by serving type
-function searchByServingType(){    
+function searchByServingType(){
     $(".servingTypeSearchOption").click(function(){
         if($('#servingTypeSearchNo').is(':checked')){
             $(".searchServingTypeDiv").attr("hidden", true);
@@ -360,9 +360,9 @@ function searchByServingType(){
         }
     });
 }
-    
+
 //To choose search by deaconate level
-function searchByDeaconLevel(){    
+function searchByDeaconLevel(){
     $(".deaconLevelSearchOption").click(function(){
         if($('#deaconLevelSearchNo').is(':checked')){
             $(".searchDeaconLevelDiv").attr("hidden", true);
@@ -379,7 +379,7 @@ function searchByDeaconLevel(){
 }
 
 //To choose search by church name
-function searchByChurchName(){    
+function searchByChurchName(){
     $(".churchNameSearchOption").click(function(){
         if($('#churchNameSearchNo').is(':checked')){
             $(".searchChurchNameDiv").attr("hidden", true);
@@ -392,7 +392,7 @@ function searchByChurchName(){
 }
 
 //To choose search by confession father name
-function searchByConfessFather(){    
+function searchByConfessFather(){
     $(".confessFatherSearchOption").click(function(){
         if($('#confessFatherSearchNo').is(':checked')){
             $(".searchConfessFatherDiv").attr("hidden", true);
@@ -405,7 +405,7 @@ function searchByConfessFather(){
 }
 
 //To check if male is checked in gender checkbox
-function checkGenderSearch(){    
+function checkGenderSearch(){
     $(".genderSearch").click(function(){
         if($('#gender_maleSearch').prop("checked")== false){
             $(".deaconLevelOptionDiv").attr("hidden", true);
@@ -422,7 +422,7 @@ function checkGenderSearch(){
 }
 
 //To check if married or widow is checked in gender checkbox
-function checkSocialStateSearch(){    
+function checkSocialStateSearch(){
     $(".socialStateSearch").click(function(){
         if($('#socialStateSearch_married').prop("checked")== false && $('#socialStateSearch_widow').prop("checked")== false){
             $(".socialStateCheck").attr("hidden", true);
