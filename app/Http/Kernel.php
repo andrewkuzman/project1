@@ -2,7 +2,9 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\RedirectPostRequests;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Illuminate\Support\Facades\Redirect;
 
 class Kernel extends HttpKernel
 {
