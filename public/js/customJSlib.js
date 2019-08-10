@@ -2,7 +2,7 @@
 function checkGender(){
     $(".gender").click(function(){
         $(".genderssn").remove();
-        if($('#gender_female').is(':checked')){
+        if($('#female').is(':checked')){
             $(".deaconLevelDiv").attr("hidden", true);
             $("#deaconLevel").val($("#deaconLevel Option:first").val());
             if (!$("#socialState_single").is(':checked')){
@@ -19,7 +19,7 @@ function checkGender(){
 }
 
 function genderssn(){
-    if($('#gender_female').is(':checked')){
+    if($('#female').is(':checked')){
         return '<div class="socialStateDiv genderssn form-group row" >\n' +
             '    <div class="col-md-6 offset-md-2">\n' +
             '        <input id="husbandssn" type="number" min="0" oninput="validity.valid||(value=\'\');" class="form-control" name="husbandssn" value="{{ old(\'husbandssn\') }}" required autocomplete="husbandssn" autofocus>\n' +
@@ -205,8 +205,8 @@ function searchByMother(){
 
 //To prevent gender being unchecked
 function preventGenderUncheck(){
-$("#gender_femaleSearch").on("click", function (e) {
-    var checkbox = $("#gender_maleSearch");
+$("#femaleSearch").on("click", function (e) {
+    var checkbox = $("#maleSearch");
     if (!(checkbox.is(":checked"))) {
         // do the confirmation thing here
         e.preventDefault();
@@ -214,8 +214,8 @@ $("#gender_femaleSearch").on("click", function (e) {
     }
 });
 
-$("#gender_maleSearch").on("click", function (e) {
-    var checkbox = $("#gender_femaleSearch");
+$("#maleSearch").on("click", function (e) {
+    var checkbox = $("#femaleSearch");
     if (!(checkbox.is(":checked"))) {
         // do the confirmation thing here
         e.preventDefault();
@@ -407,7 +407,7 @@ function searchByConfessFather(){
 //To check if male is checked in gender checkbox
 function checkGenderSearch(){
     $(".genderSearch").click(function(){
-        if($('#gender_maleSearch').prop("checked")== false){
+        if($('#maleSearch').prop("checked")== false){
             $(".deaconLevelOptionDiv").attr("hidden", true);
             $("#deaconLevelSearch_epsaltos").prop("checked", false);
             $("#deaconLevelSearch_anaghnostos").prop("checked", false);

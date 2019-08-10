@@ -101,11 +101,11 @@
                             <div class="col-md-6 offset-md-2">
                                 <div class="col-md-4 offset-md-4 d-inline">
                                     <label class="col-form-label text-md-left">انثي</label>
-                                    <input type="radio" id="gender_female" class="gender @error('gender') is-invalid @enderror" name="gender" value="gender_female" @if(old('gender')) checked @endif required autocomplete="gender" autofocus>
+                                    <input type="radio" id="female" class="gender @error('gender') is-invalid @enderror" name="gender" value="female" @if(old('gender')) checked @endif required autocomplete="gender" autofocus>
                                 </div>
                                 <div class="col-md-4 d-inline">
                                     <label class="col-form-label text-md-left">ذكر</label>
-                                    <input type="radio" checked id="gender_male" class="gender @error('gender') is-invalid @enderror" name="gender" value="gender_male" @if(old('gender')) checked @endif required autocomplete="gender" autofocus>
+                                    <input type="radio" checked id="male" class="gender @error('gender') is-invalid @enderror" name="gender" value="male" @if(old('gender')) checked @endif required autocomplete="gender" autofocus>
                                 </div>
                                 @error('gender')
                                     <span class="invalid-feedback" role="alert">
@@ -214,7 +214,7 @@
 
                         <div class="form-group generateHusbandWifeData"></div>
 
-                        <div class="genderssn form-group row" >
+                        <div class="socialStateDiv genderssn form-group row" >
                             <div class="col-md-6 offset-md-2">
                                 <input id="wifessn" type="number" min="0" oninput="validity.valid||(value='');" class="form-control @error('wifessn') is-invalid @enderror" name="wifessn" value="{{ old('wifessn') }}" required autocomplete="wifessn" autofocus>
 

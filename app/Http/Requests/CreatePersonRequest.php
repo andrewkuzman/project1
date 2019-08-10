@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 class CreatePersonRequest extends FormRequest
 {
@@ -44,7 +45,7 @@ class CreatePersonRequest extends FormRequest
             'mobile' => 'required|unique:people|size:11',
             'email' => 'required|unique:people|email|max:50',
             'motherName' => 'required|alpha|max:40',
-            'gender' => 'required|in:gender_male,gender_female',
+            'gender' => 'required|in:male,female',
             'birthDate' => 'required|date|before:today',
             'edcQual' => 'required|in:عالي,فوق المتوسط,متوسط,ثانوي,اعدادي,ابتدائي,بدون مؤهل',
             'city' => 'required|max:25',
@@ -57,48 +58,64 @@ class CreatePersonRequest extends FormRequest
             'personalPic' => 'required|image|max:2048',
             'servingType' => 'in:ايتام,ابتدائي,اعدادي,ثانوي,شباب,اختار,اخوة الرب,مسنين',
         ];
-        if($this->request->all()['gender'] == "gender_female"){
+        if($this->request->all()['gender'] == "female"){
             $rules ['deaconLevel'] = 'in:اختار';
         }
-        if($this->request->all()['gender'] == "gender_male"){
+        if($this->request->all()['gender'] == "male"){
             $rules ['deaconLevel'] = 'in:اختار,ابصالتس,اناغنوستيس,ايبودياكون,دياكون,أرشيدياكون';
         }
         if($this->request->all()['socialState'] != "socialState_single"){
             $rules ['numberofChildren'] = 'required|max:15';
-            $rules ['marriageDate'] = 'required|before:today|date|greater_year:birthDate';
 
-            if ($this->request->all()['gender'] == "gender_male"){
-                $checkAlreadyExist = DB::table('related')->where('memberssn', $this->request->all()['wifessn'])->value('husbandssn');
+            if ($this->request->all()['gender'] == "male"){
+                $checkAlreadyExist = DB::table('related')->where('husbandssn', $this->request->all()['ssn'])->where('memberType','wife')->value('memberssn');
                 $checkWifeGender = DB::table('people')->where('ssn', $this->request->all()['wifessn'])->value('gender');
+                $checkIfSingle = DB::table('people')->where('ssn',$this->request->all()['wifessn'])->where('socialState','single')->value('ssn');
                 if ($checkWifeGender != null){
                     $rules['gender'] = 'not_in:'.$checkWifeGender;
                 }
-                if ($this->request->all()['ssn'] == $checkAlreadyExist){
-                    $rules ['wifessn'] = 'required|size:14|not_in:'.$this->request->all()['ssn'];
+                if ($checkAlreadyExist == null){
+                    $rules ['wifessn'] = 'required|unique:related,memberssn|size:14|not_in:'.$this->request->all()['ssn'].','.$checkIfSingle;
+                    $rules ['marriageDate'] = 'required|before:today|date|greater_year:birthDate';
                 }
                 else{
-                    $rules ['wifessn'] = 'required|unique:related,memberssn|size:14|not_in:'.$this->request->all()['ssn'];
+                    $rules ['wifessn'] = 'required|size:14|in:'.$checkAlreadyExist.'|not_in:'.$this->request->all()['ssn'].','.$checkIfSingle;
+                    $rules ['marriageDate'] = 'required|before:today|date|greater_year:birthDate|in:'.DB::table('people')->where('ssn', $this->request->all()['wifessn'])->value('marriageDate');
                 }
                 for ($i = 1; $i <= $this->all()['numberofChildren']; $i++){
                     $rules ['childssn' . $i] = 'required|unique:related,memberssn|unique:people,ssn|size:14|not_in:'.$this->request->all()['ssn'].','.$this->request->all()['wifessn'].','.self::childValidation($this->request->all()['numberofChildren'],$i);
                 }
             }
             else{
-                $checkAlreadyExist = DB::table('related')->where('memberssn', $this->request->all()['ssn'])->value('husbandssn');
+                $checkAlreadyExist = DB::table('related')->where('memberssn', $this->request->all()['ssn'])->where('memberType','wife')->value('husbandssn');
                 $checkHusbandGender = DB::table('people')->where('ssn', $this->request->all()['husbandssn'])->value('gender');
+                $checkIfSingle = DB::table('people')->where('ssn',$this->request->all()['husbandssn'])->where('socialState','single')->value('ssn');
                 if ($checkHusbandGender != null){
                     $rules['gender'] = 'not_in:'.$checkHusbandGender;
                 }
-                $rules ['husbandssn'] = 'required|size:14|not_in:'.$this->request->all()['ssn'];
-                if($checkAlreadyExist != $this->request->all()['husbandssn']){
-                    $rules ['husbandssn'] = 'unique:related,husbandssn,NULL,memberssn,memberType,wife';
+                if ($checkAlreadyExist == null){
+                    $rules ['marriageDate'] = 'required|before:today|date|greater_year:birthDate';
+                    $rules ['husbandssn'] = 'unique:related,husbandssn,NULL,memberssn,memberType,wife|required|size:14|not_in:'.$this->request->all()['ssn'].','.$checkIfSingle;
+                }
+                else{
+                    $rules ['marriageDate'] = 'required|before:today|date|greater_year:birthDate|in:'.DB::table('people')->where('ssn', $this->request->all()['husbandssn'])->value('marriageDate');
+                    $rules['husbandssn'] = 'required|size:14|in:'.$checkAlreadyExist.'|not_in:'.$this->request->all()['ssn'].','.$checkIfSingle;
                 }
                 for ($i = 1; $i <= $this->all()['numberofChildren']; $i++){
                     $rules ['childssn' . $i] = 'required|unique:related,memberssn|size:14|not_in:'.$this->request->all()['ssn'].','.$this->request->all()['husbandssn'].','.self::childValidation($this->request->all()['numberofChildren'],$i);
                 }
             }
         }
-
+        else{
+            if ($this->request->all()['gender'] == "male") {
+                $checkIfSingle = DB::table('related')->where('husbandssn', $this->request->all()['ssn'])->value('husbandssn');
+                $rules['ssn'] = 'not_in:'.$checkIfSingle;
+            }
+            else{
+                $checkIfSingle = DB::table('related')->where('memberssn', $this->request->all()['ssn'])->where('memberType','wife')->value('memberssn');
+                $rules['ssn'] = 'not_in:'.$checkIfSingle;
+            }
+        }
         return $rules;
     }
     public function messages()
@@ -108,6 +125,7 @@ class CreatePersonRequest extends FormRequest
             'name.max' => 'يجب ان لا يتعدي الاسم ال40 حرف.',
             'ssn.required' => 'برجاء ادخال الرقم القومي.',
             'ssn.unique' => 'هذا الرقم القومي مسجل بالفعل برجاء اعادة ادخال الرقم القومي و التأكد منه.',
+            'ssn.not_in' => 'الحالة الاجتماعية غير صحيحة, هذا الشخص متزوج بالفعل.',
             'ssn.size' => 'يجب ان يتكون الرقم القومي من 14 رقم.',
             'mobile.required' => 'برجاء ادخال رقم المحمول.',
             'mobile.unique' => 'رقم المحمول مسجل بالفعل برجاء اعادة ادخال رقم المحمول و التأكد منه.',
@@ -120,6 +138,7 @@ class CreatePersonRequest extends FormRequest
             'motherName.max' => 'يجب ان لا يتعدي اسم الام ال40 حرف.',
             'gender.required' => 'برجاء اختيار النوع.',
             'gender.in' => 'النوع يجب ان يكون ذكر او انثي فقط.',
+            'gender.not_in' => 'النوع غير صحيح برجاء التأكد منه و اعادة ادخاله مرة اخري.',
             'birthDate.required' => 'برجاء ادخال تاريخ الميلاد.',
             'birthDate.date' => 'يجب ان يكون تاريخ الميلاد علي هيئة تاريخ.',
             'birthDate.before' => 'يجب ان يكون تاريخ الميلاد قبل تاريخ اليوم.',
@@ -135,14 +154,17 @@ class CreatePersonRequest extends FormRequest
             'building.max' => 'يجب ان لا يتعدي اسم/رقم العقار ال25 حرف .',
             'socialState.required' => 'برجاء اختيار الحالة الاجتماعية.',
             'socialState.in' => 'النوع يجب ان تكون الحالة الاجتماعية اعزب, متزوج, ارمل فقط.',
+            'socialState.not_in' => 'الحالة الاجتماعية غير صحيحة, هذا الشخص متزوج بالفعل.',
             'wifessn.required' => 'برجاء ادخال الرقم القومي للزوجة.',
             'wifessn.unique' => 'الرقم القومي للزوجة مسجل بالفعل لشخص اخر برجاء اعادة ادخال الرقم القومي للزوجة و التأكد منه.',
             'wifessn.size' => 'يجب ان يتكون الرقم القومي للزوجة من 14 رقم.',
-            'wifessn.not_in' => 'الرقم القومي للزوجة غير صحيح برجاء اعادة ادخال الرقم القومي للزوجة و التأكد منه.',
+            'wifessn.not_in' => 'الرقم القومي للزوجة غير صحيح برجاء اعادة ادخال الرقم القومي للزوجة و التأكد منه, او التأكد من الحالة الأجتماعية للزوجة.',
+            'wifessn.in' => 'الرقم القومي للزوجة غير صحيح برجاء اعادة ادخال الرقم القومي للزوجة و التأكد منه.',
             'husbandssn.required' => 'برجاء ادخال الرقم القومي للزوج.',
             'husbandssn.unique' => 'الرقم القومي للزوج مسجل بالفعل لشخص اخر برجاء اعادة ادخال الرقم القومي للزوج و التأكد منه.',
             'husbandssn.size' => 'يجب ان يتكون الرقم القومي للزوج من 14 رقم.',
-            'husbandssn.not_in' => 'الرقم القومي للزوج غير صحيح برجاء اعادة ادخال الرقم القومي للزوج و التأكد منه.',
+            'husbandssn.not_in' => 'الرقم القومي للزوج غير صحيح برجاء اعادة ادخال الرقم القومي للزوج و التأكد منه, او التأكد من الحالة الأجتماعية للزوج.',
+            'husbandssn.in' => 'الرقم القومي للزوج غير صحيح برجاء اعادة ادخال الرقم القومي للزوج و التأكد منه.',
             'childssn1.required' => 'برجاء ادخال الرقم القومي للابن الاول.',
             'childssn1.unique' => 'هذا الرقم القومي مسجل بالفعل برجاء اعادة ادخال الرقم القومي للابن الاول و التأكد منه.',
             'childssn1.size' => 'يجب ان يتكون الرقم القومي للابن الاول من 14 رقم.',
@@ -211,6 +233,7 @@ class CreatePersonRequest extends FormRequest
             'marriageDate.date' => 'يجب ان يكون تاريخ الزواج علي هيئة تاريخ.',
             'marriageDate.before' => 'يجب ان يكون تاريخ الزواج قبل تاريخ اليوم.',
             'marriageDate.greater_year' => 'تاريخ الزواج غير صحيح برجاء مراجعة تاريخ الميلاد و تاريخ الزواج.',
+            'marriageDate.in' => 'تاريخ الزواج غير صحيح برجاء مراجعة تاريخ الزواج و اعادة ادخاله.',
             'church.required' => 'برجاء ادخال اسم الكنيسة.',
             'church.max' => 'يجب ان لا يتعدي اسم الكنيسة ال35 حرف .',
             'confessFather.required' => 'برجاء ادخال اسم الكنيسة.',

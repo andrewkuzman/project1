@@ -55,7 +55,7 @@ class PersonsController extends Controller
         $person->img_url = $img_path;
         $person->servingType = $data['servingType'];
         $person->deaconLevel = $data['deaconLevel'];
-        if ($data['gender'] == "gender_male"){
+        if ($data['gender'] == "male"){
             $person->gender = "male";
         }
         else{
@@ -75,7 +75,14 @@ class PersonsController extends Controller
             else{
                 $person->socialState = "widow";
             }
-            if ($data['gender'] == "gender_male"){
+            if ($data['gender'] == "male"){
+                for ($i = 1; $i <=$data['numberofChildren']; $i++){
+                    $relatedChild = new Related();
+                    $relatedChild->memberssn = $data['childssn'.$i];
+                    $relatedChild->memberType = "Child";
+                    $relatedChild->husbandssn = $data['ssn'];
+                    $relatedChild->save();
+                }
                 $check = DB::table('related')->where('memberssn', $data['wifessn'])->value('memberssn');
                 if ($check == null){
                     $related->memberssn=$data['wifessn'];
