@@ -1,8 +1,10 @@
 //To check which gender is selected in gender radio button
 function checkGender(){
     $(".gender").click(function(){
+        $("#numberofChildren").val("0");
         $(".genderssn").remove();
         if($('#female').is(':checked')){
+            $(".generatessn").remove();
             $(".deaconLevelDiv").attr("hidden", true);
             $("#deaconLevel").val($("#deaconLevel Option:first").val());
             if (!$("#socialState_single").is(':checked')){
@@ -10,6 +12,7 @@ function checkGender(){
             }
         }
         else{
+            $(".generatessn").remove();
             if (!$("#socialState_single").is(':checked')){
                 $(genderssn()).prependTo(".generateHusbandWifeData");
             }
@@ -79,6 +82,7 @@ $(genderssn()  +
 
 function createChildssnInput(){
     $("#numberofChildren").change(function(){
+    if($('#male').is(':checked')){
         var number = parseInt($("#numberofChildren").val());
         if(number==1){
             childNumber=[""];
@@ -88,16 +92,17 @@ function createChildssnInput(){
         $(".generatessn").remove();
         for (var i = 1; i <= number; i++) {
             $(' <div class="generatessn socialStateDiv form-group row">\n\
-                    <div class="col-md-6 offset-md-2">\n\
-                        <input id="childssn'+i+'" type="number" min="0" oninput="validity.valid||(value='+"''"+');" class="form-control" name="childssn'+i+'" value="{{ old('+"childssn"+i+') }}" required autocomplete="childssn'+i+'" autofocus>\n\
-                        \n\
-                    </div>\n\
+                <div class="col-md-6 offset-md-2">\n\
+                    <input id="childssn'+i+'" type="number" min="0" oninput="validity.valid||(value='+"''"+');" class="form-control" name="childssn'+i+'" value="{{ old('+"childssn"+i+') }}" required autocomplete="childssn'+i+'" autofocus>\n\
                     \n\
-                    <label for="childssn'+i+'" class="col-md-4 col-form-label text-md-left"> الرقم القومي للابن/الابنة '+childNumber[i-1]+'</label>\n\
                 </div>\n\
                 \n\
-            ').appendTo(".generateChildrenssnDiv");
+                <label for="childssn'+i+'" class="col-md-4 col-form-label text-md-left"> الرقم القومي للابن/الابنة '+childNumber[i-1]+'</label>\n\
+            </div>\n\
+            \n\
+        ').appendTo(".generateChildrenssnDiv");
         }
+    }
     });
 }
 
@@ -205,8 +210,8 @@ function searchByMother(){
 
 //To prevent gender being unchecked
 function preventGenderUncheck(){
-$("#femaleSearch").on("click", function (e) {
-    var checkbox = $("#maleSearch");
+$("#gender_femaleSearch").on("click", function (e) {
+    var checkbox = $("#gender_maleSearch");
     if (!(checkbox.is(":checked"))) {
         // do the confirmation thing here
         e.preventDefault();
@@ -214,8 +219,8 @@ $("#femaleSearch").on("click", function (e) {
     }
 });
 
-$("#maleSearch").on("click", function (e) {
-    var checkbox = $("#femaleSearch");
+$("#gender_maleSearch").on("click", function (e) {
+    var checkbox = $("#gender_femaleSearch");
     if (!(checkbox.is(":checked"))) {
         // do the confirmation thing here
         e.preventDefault();

@@ -15,11 +15,11 @@
                             <div class="col-md-6 offset-md-2">
                                 <div class="col-md-4 offset-md-4 d-inline">
                                     <label class="col-form-label text-md-left">انثي</label>
-                                    <input type="checkbox" id="gender_femaleSearch" class="genderSearch @error('genderSearch') is-invalid @enderror" name="genderSearch" value="gender_femaleSearch" autocomplete="genderSearch" autofocus>
+                                    <input type="checkbox" id="gender_femaleSearch" class="genderSearch @error('genderSearch') is-invalid @enderror" name="genderSearchFemale" value="gender_femaleSearch" autocomplete="genderSearch" autofocus>
                                 </div>
                                 <div class="col-md-4 d-inline">
                                     <label class="col-form-label text-md-left">ذكر</label>
-                                    <input type="checkbox" checked id="gender_maleSearch" class="genderSearch @error('genderSearch') is-invalid @enderror" name="genderSearch" value="gender_maleSearch" autocomplete="genderSearch" autofocus>
+                                    <input type="checkbox" checked id="gender_maleSearch" class="genderSearch @error('genderSearch') is-invalid @enderror" name="genderSearchMale" value="gender_maleSearch" autocomplete="genderSearch" autofocus>
                                 </div>
                                 @error('genderSearch')
                                     <span class="invalid-feedback" role="alert">

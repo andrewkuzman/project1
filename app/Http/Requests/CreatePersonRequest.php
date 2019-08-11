@@ -40,11 +40,11 @@ class CreatePersonRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = ['name' => 'required|max:40',
+        $rules = ['name' => 'required|regex:/^[\pL\s\-]+$/u|max:40',
             'ssn' =>'required|unique:people|size:14',
             'mobile' => 'required|unique:people|size:11',
             'email' => 'required|unique:people|email|max:50',
-            'motherName' => 'required|alpha|max:40',
+            'motherName' => 'required|regex:/^[\pL\s\-]+$/u|max:40',
             'gender' => 'required|in:male,female',
             'birthDate' => 'required|date|before:today',
             'edcQual' => 'required|in:عالي,فوق المتوسط,متوسط,ثانوي,اعدادي,ابتدائي,بدون مؤهل',
@@ -66,11 +66,11 @@ class CreatePersonRequest extends FormRequest
         }
         if($this->request->all()['socialState'] != "socialState_single"){
             $rules ['numberofChildren'] = 'required|max:15';
-
             if ($this->request->all()['gender'] == "male"){
                 $checkAlreadyExist = DB::table('related')->where('husbandssn', $this->request->all()['ssn'])->where('memberType','wife')->value('memberssn');
                 $checkWifeGender = DB::table('people')->where('ssn', $this->request->all()['wifessn'])->value('gender');
                 $checkIfSingle = DB::table('people')->where('ssn',$this->request->all()['wifessn'])->where('socialState','single')->value('ssn');
+                $checkNumberOfChildren = DB::table('people')->where('ssn',$this->request->all()['wifessn'])->value('numOfChildren');
                 if ($checkWifeGender != null){
                     $rules['gender'] = 'not_in:'.$checkWifeGender;
                 }
@@ -82,6 +82,9 @@ class CreatePersonRequest extends FormRequest
                     $rules ['wifessn'] = 'required|size:14|in:'.$checkAlreadyExist.'|not_in:'.$this->request->all()['ssn'].','.$checkIfSingle;
                     $rules ['marriageDate'] = 'required|before:today|date|greater_year:birthDate|in:'.DB::table('people')->where('ssn', $this->request->all()['wifessn'])->value('marriageDate');
                 }
+                if ($checkNumberOfChildren != null){
+                    $rules['numberofChildren'] = $rules['numberofChildren'] . '|in:'.$checkNumberOfChildren;
+                }
                 for ($i = 1; $i <= $this->all()['numberofChildren']; $i++){
                     $rules ['childssn' . $i] = 'required|unique:related,memberssn|unique:people,ssn|size:14|not_in:'.$this->request->all()['ssn'].','.$this->request->all()['wifessn'].','.self::childValidation($this->request->all()['numberofChildren'],$i);
                 }
@@ -90,6 +93,7 @@ class CreatePersonRequest extends FormRequest
                 $checkAlreadyExist = DB::table('related')->where('memberssn', $this->request->all()['ssn'])->where('memberType','wife')->value('husbandssn');
                 $checkHusbandGender = DB::table('people')->where('ssn', $this->request->all()['husbandssn'])->value('gender');
                 $checkIfSingle = DB::table('people')->where('ssn',$this->request->all()['husbandssn'])->where('socialState','single')->value('ssn');
+                $checkNumberOfChildren = DB::table('people')->where('ssn',$this->request->all()['husbandssn'])->value('numOfChildren');
                 if ($checkHusbandGender != null){
                     $rules['gender'] = 'not_in:'.$checkHusbandGender;
                 }
@@ -101,8 +105,8 @@ class CreatePersonRequest extends FormRequest
                     $rules ['marriageDate'] = 'required|before:today|date|greater_year:birthDate|in:'.DB::table('people')->where('ssn', $this->request->all()['husbandssn'])->value('marriageDate');
                     $rules['husbandssn'] = 'required|size:14|in:'.$checkAlreadyExist.'|not_in:'.$this->request->all()['ssn'].','.$checkIfSingle;
                 }
-                for ($i = 1; $i <= $this->all()['numberofChildren']; $i++){
-                    $rules ['childssn' . $i] = 'required|unique:related,memberssn|size:14|not_in:'.$this->request->all()['ssn'].','.$this->request->all()['husbandssn'].','.self::childValidation($this->request->all()['numberofChildren'],$i);
+                if ($checkNumberOfChildren != null){
+                    $rules['numberofChildren'] = $rules['numberofChildren'] . '|in:'.$checkNumberOfChildren;
                 }
             }
         }
@@ -229,6 +233,7 @@ class CreatePersonRequest extends FormRequest
             'deaconLevel.in' => 'نوع الخدمة يجب ان يكون احد الاختيارات المتاحة فقط.',
             'numberofChildren.required' => 'برجاء ادخال عدد الابناء.',
             'numberofChildren.max' => 'يجب ان لا يتعدي عدد الابناء ال15 ابن .',
+            'numberofChildren.in' => 'عدد الابناء غير صحيح برجاء مراجعة عدد الابناء و اعادة ادخاله .',
             'marriageDate.required' => 'برجاء ادخال تاريخ الزواج.',
             'marriageDate.date' => 'يجب ان يكون تاريخ الزواج علي هيئة تاريخ.',
             'marriageDate.before' => 'يجب ان يكون تاريخ الزواج قبل تاريخ اليوم.',
