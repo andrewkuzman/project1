@@ -35,15 +35,15 @@
                             <div class="col-md-6 offset-md-2">
                                 <div class="col-md-3 offset-md-2  d-inline">
                                     <label class="col-form-label text-md-left">أرمل</label>
-                                    <input type="checkbox" id="socialStateSearch_widow" class="socialStateSearch @error('socialStateSearch') is-invalid @enderror" name="socialStateSearch" value="socialStateSearch_widow" autocomplete="socialStateSearch" autofocus>
+                                    <input type="checkbox" id="socialStateSearch_widow" class="socialStateSearch @error('socialStateSearch') is-invalid @enderror" name="socialStateSearchWidow" value="socialStateSearch_widow" autocomplete="socialStateSearch" autofocus>
                                 </div>
                                 <div class="col-md-3 d-inline">
                                     <label class="col-form-label text-md-left">متزوج</label>
-                                    <input type="checkbox" id="socialStateSearch_married" class="socialStateSearch @error('socialStateSearch') is-invalid @enderror" name="socialStateSearch" value="socialStateSearch_married" autocomplete="socialStateSearch" autofocus>
+                                    <input type="checkbox" id="socialStateSearch_married" class="socialStateSearch @error('socialStateSearch') is-invalid @enderror" name="socialStateSearchMarried" value="socialStateSearch_married" autocomplete="socialStateSearch" autofocus>
                                 </div>
                                 <div class="col-md-3 d-inline">
                                     <label class="col-form-label text-md-left">أعزب</label>
-                                    <input type="checkbox" checked id="socialStateSearch_single" class="socialStateSearch @error('socialStateSearch') is-invalid @enderror" name="socialStateSearch" value="socialStateSearch_single" autocomplete="socialStateSearch" autofocus>
+                                    <input type="checkbox" checked id="socialStateSearch_single" class="socialStateSearch @error('socialStateSearch') is-invalid @enderror" name="socialStateSearchSingle" value="socialStateSearch_single" autocomplete="socialStateSearch" autofocus>
                                 </div>
                                 @error('socialStateSearch')
                                     <span class="invalid-feedback" role="alert">
@@ -284,35 +284,35 @@
                                 <div class="row">
                                     <div class="col-md-4 d-inline">
                                         <label class="col-form-label text-md-left">متوسط</label>
-                                        <input type="checkbox" id="edcQualSearch_average" class="@error('edcQualSearch') is-invalid @enderror" name="edcQualSearch" value="edcQualSearch_average" autocomplete="edcQualSearch" autofocus>
+                                        <input type="checkbox" id="edcQualSearch_average" class="@error('edcQualSearch') is-invalid @enderror" name="edcQualSearchAverage" value="edcQualSearch_average" autocomplete="edcQualSearchAverage" autofocus>
                                     </div>
                                     <div class="col-md-4 d-inline">
                                         <label class="col-form-label text-md-left">فوق المتوسط</label>
-                                        <input type="checkbox" id="edcQualSearch_aboveAverage" class="@error('edcQualSearch') is-invalid @enderror" name="edcQualSearch" value="edcQualSearch_aboveAverage" autocomplete="edcQualSearch" autofocus>
+                                        <input type="checkbox" id="edcQualSearch_aboveAverage" class="@error('edcQualSearch') is-invalid @enderror" name="edcQualSearchAboveAverage" value="edcQualSearch_aboveAverage" autocomplete="edcQualSearchAboveAverage" autofocus>
                                     </div>
                                     <div class="col-md-4 d-inline">
                                         <label class="col-form-label text-md-left">عالي</label>
-                                        <input type="checkbox" id="edcQualSearch_high" class="@error('edcQualSearch') is-invalid @enderror" name="edcQualSearch" value="edcQualSearch_high" autocomplete="edcQualSearch" autofocus>
+                                        <input type="checkbox" id="edcQualSearch_high" class="@error('edcQualSearch') is-invalid @enderror" name="edcQualSearchHigh" value="edcQualSearch_high" autocomplete="edcQualSearchHigh" autofocus>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4 d-inline">
                                         <label class="col-form-label text-md-left">ابتدائي</label>
-                                        <input type="checkbox" id="edcQualSearch_primary" class="@error('edcQualSearch') is-invalid @enderror" name="edcQualSearch" value="edcQualSearch_primary" autocomplete="edcQualSearch" autofocus>
+                                        <input type="checkbox" id="edcQualSearch_primary" class="@error('edcQualSearch') is-invalid @enderror" name="edcQualSearchPrimary" value="edcQualSearch_primary" autocomplete="edcQualSearchPrimary" autofocus>
                                     </div>
                                     <div class="col-md-4 d-inline">
                                         <label class="col-form-label text-md-left">اعدادي</label>
-                                        <input type="checkbox" id="edcQualSearch_preparatory" class="@error('edcQualSearch') is-invalid @enderror" name="edcQualSearch" value="edcQualSearch_preparatory" autocomplete="edcQualSearch" autofocus>
+                                        <input type="checkbox" id="edcQualSearch_preparatory" class="@error('edcQualSearch') is-invalid @enderror" name="edcQualSearchPreparatory" value="edcQualSearch_preparatory" autocomplete="edcQualSearchPreparatory" autofocus>
                                     </div>
                                     <div class="col-md-4 d-inline">
                                         <label class="col-form-label text-md-left">ثانوي</label>
-                                        <input type="checkbox" id="edcQualSearch_secondary" class="@error('edcQualSearch') is-invalid @enderror" name="edcQualSearch" value="edcQualSearch_secondary" autocomplete="edcQualSearch" autofocus>
+                                        <input type="checkbox" id="edcQualSearch_secondary" class="@error('edcQualSearch') is-invalid @enderror" name="edcQualSearchSecondary" value="edcQualSearch_secondary" autocomplete="edcQualSearchSecondary" autofocus>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4 offset-md-8 d-inline">
                                     <label class="col-form-label text-md-left">بدون مؤهل</label>
-                                    <input type="checkbox" id="edcQualSearch_non" class="@error('edcQualSearch') is-invalid @enderror" name="edcQualSearch" value="edcQualSearch_non" autocomplete="edcQualSearch" autofocus>
+                                    <input type="checkbox" id="edcQualSearch_non" class="@error('edcQualSearch') is-invalid @enderror" name="edcQualSearchNon" value="edcQualSearch_non" autocomplete="edcQualSearchNon" autofocus>
                                     </div>
                                 </div>
                                 @error('edcQualSearch')
@@ -378,26 +378,6 @@
                             </div>
 
                             <label class="col-md-4 col-form-label text-md-left pt-4">العنوان</label>
-                        </div>
-
-                        <div class="form-group row socialStateCheck" hidden>
-                            <div class="col-md-6 offset-md-2">
-                                <div class="col-md-4 offset-md-4 d-inline">
-                                    <label class="col-form-label text-md-left">نعم</label>
-                                    <input type="radio" id="husband_wifeNameSearchYes" class="husband_wifeNameSearchOption @error('husband_wifeNameSearchOption') is-invalid @enderror" name="husband_wifeNameSearchOption" value="husband_wifeNameSearchYes" autocomplete="husband_wifeNameSearchOption" autofocus>
-                                </div>
-                                <div class="col-md-4 d-inline">
-                                    <label class="col-form-label text-md-left">لا</label>
-                                    <input type="radio" checked id="husband_wifeNameSearchNo" class="husband_wifeNameSearchOption @error('husband_wifeNameSearchOption') is-invalid @enderror" name="husband_wifeNameSearchOption" value="husband_wifeNameSearchNo" autocomplete="husband_wifeNameSearchOption" autofocus>
-                                </div>
-                                @error('husband_wifeNameSearchOption')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-
-                            <label for="husband_wifeNameSearchOption" class="col-md-4 col-form-label text-md-left">البحث باسم الزوج/الزوجة</label>
                         </div>
 
                         <div class="searchHusband_wifeDiv form-group row jumbotron" hidden>
@@ -509,35 +489,35 @@
                                 <div class="row">
                                     <div class="col-md-4 d-inline">
                                         <label class="col-form-label text-md-left">اعدادي</label>
-                                        <input type="checkbox" id="servingTypeSearch_preparatory" class="@error('servingTypeSearch') is-invalid @enderror" name="servingTypeSearch" value="servingTypeSearch_preparatory" autocomplete="servingTypeSearch" autofocus>
+                                        <input type="checkbox" id="servingTypeSearch_preparatory" class="@error('servingTypeSearch') is-invalid @enderror" name="servingTypeSearchPreparatory" value="servingTypeSearch_preparatory" autocomplete="servingTypeSearchPreparatory" autofocus>
                                     </div>
                                     <div class="col-md-4 d-inline">
                                         <label class="col-form-label text-md-left">ثانوي</label>
-                                        <input type="checkbox" id="servingTypeSearch_secondary" class="@error('servingTypeSearch') is-invalid @enderror" name="servingTypeSearch" value="servingTypeSearch_secondary" autocomplete="servingTypeSearch" autofocus>
+                                        <input type="checkbox" id="servingTypeSearch_secondary" class="@error('servingTypeSearch') is-invalid @enderror" name="servingTypeSearchSecondary" value="servingTypeSearch_secondary" autocomplete="servingTypeSearchSecondary" autofocus>
                                     </div>
                                     <div class="col-md-4 d-inline">
                                         <label class="col-form-label text-md-left">شباب</label>
-                                        <input type="checkbox" id="servingTypeSearch_youth" class="@error('servingTypeSearch') is-invalid @enderror" name="servingTypeSearch" value="servingTypeSearch_youth" autocomplete="servingTypeSearch" autofocus>
+                                        <input type="checkbox" id="servingTypeSearch_youth" class="@error('servingTypeSearch') is-invalid @enderror" name="servingTypeSearchYouth" value="servingTypeSearch_youth" autocomplete="servingTypeSearchYouth" autofocus>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4 d-inline">
                                         <label class="col-form-label text-md-left">اخوة الرب</label>
-                                        <input type="checkbox" id="servingTypeSearch_poor" class="@error('servingTypeSearch') is-invalid @enderror" name="servingTypeSearch" value="servingTypeSearch_poor" autocomplete="servingTypeSearch" autofocus>
+                                        <input type="checkbox" id="servingTypeSearch_poor" class="@error('servingTypeSearch') is-invalid @enderror" name="servingTypeSearchPoor" value="servingTypeSearch_poor" autocomplete="servingTypeSearchPoor" autofocus>
                                     </div>
                                     <div class="col-md-4 d-inline">
                                         <label class="col-form-label text-md-left">ايتام</label>
-                                        <input type="checkbox" id="servingTypeSearch_orphans" class="@error('servingTypeSearch') is-invalid @enderror" name="servingTypeSearch" value="servingTypeSearch_orphans" autocomplete="servingTypeSearch" autofocus>
+                                        <input type="checkbox" id="servingTypeSearch_orphans" class="@error('servingTypeSearch') is-invalid @enderror" name="servingTypeSearchOrphans" value="servingTypeSearch_orphans" autocomplete="servingTypeSearchOrphans" autofocus>
                                     </div>
                                     <div class="col-md-4 d-inline">
                                         <label class="col-form-label text-md-left">ابتدائي</label>
-                                        <input type="checkbox" id="servingTypeSearch_primary" class="@error('servingTypeSearch') is-invalid @enderror" name="servingTypeSearch" value="servingTypeSearch_primary" autocomplete="servingTypeSearch" autofocus>
+                                        <input type="checkbox" id="servingTypeSearch_primary" class="@error('servingTypeSearch') is-invalid @enderror" name="servingTypeSearchPrimary" value="servingTypeSearch_primary" autocomplete="servingTypeSearchPrimary" autofocus>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4 offset-md-8 d-inline">
                                     <label class="col-form-label text-md-left">مسنين</label>
-                                    <input type="checkbox" id="servingTypeSearch_old" class="@error('servingTypeSearch') is-invalid @enderror" name="servingTypeSearch" value="servingTypeSearch_old" autocomplete="servingTypeSearch" autofocus>
+                                    <input type="checkbox" id="servingTypeSearch_old" class="@error('servingTypeSearch') is-invalid @enderror" name="servingTypeSearchOld" value="servingTypeSearch_old" autocomplete="servingTypeSearchOld" autofocus>
                                     </div>
                                 </div>
                                 @error('servingTypeSearch')
@@ -575,25 +555,25 @@
                                 <div class="row">
                                     <div class="col-md-4 d-inline">
                                         <label class="col-form-label text-md-left">ايبودياكون</label>
-                                        <input type="checkbox" id="deaconLevelSearch_epideacon" class="@error('servingTypeSearch') is-invalid @enderror" name="servingTypeSearch" value="deaconLevelSearch_epideacon" autocomplete="servingTypeSearch" autofocus>
+                                        <input type="checkbox" id="deaconLevelSearch_epideacon" class="@error('servingTypeSearch') is-invalid @enderror" name="servingTypeSearchEpideacon" value="deaconLevelSearch_epideacon" autocomplete="servingTypeSearchEpideacon" autofocus>
                                     </div>
                                     <div class="col-md-4 d-inline">
                                         <label class="col-form-label text-md-left">اناغنوستيس</label>
-                                        <input type="checkbox" id="deaconLevelSearch_anaghnostos" class="@error('servingTypeSearch') is-invalid @enderror" name="servingTypeSearch" value="deaconLevelSearch_anaghnostos" autocomplete="servingTypeSearch" autofocus>
+                                        <input type="checkbox" id="deaconLevelSearch_anaghnostos" class="@error('servingTypeSearch') is-invalid @enderror" name="servingTypeSearchAnaghnostos" value="deaconLevelSearch_anaghnostos" autocomplete="servingTypeSearchAnaghnostos" autofocus>
                                     </div>
                                     <div class="col-md-4 d-inline">
                                         <label class="col-form-label text-md-left">ابصالتس</label>
-                                        <input type="checkbox" id="deaconLevelSearch_epsaltos" class="@error('servingTypeSearch') is-invalid @enderror" name="servingTypeSearch" value="deaconLevelSearch_epsaltos" autocomplete="servingTypeSearch" autofocus>
+                                        <input type="checkbox" id="deaconLevelSearch_epsaltos" class="@error('servingTypeSearch') is-invalid @enderror" name="servingTypeSearchEpsaltos" value="deaconLevelSearch_epsaltos" autocomplete="servingTypeSearchEpsaltos" autofocus>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4 offset-md-4 d-inline">
                                         <label class="col-form-label text-md-left">أرشيدياكون</label>
-                                        <input type="checkbox" id="deaconLevelSearch_archdeacon" class="@error('servingTypeSearch') is-invalid @enderror" name="servingTypeSearch" value="deaconLevelSearch_archdeacon" autocomplete="servingTypeSearch" autofocus>
+                                        <input type="checkbox" id="deaconLevelSearch_archdeacon" class="@error('servingTypeSearch') is-invalid @enderror" name="servingTypeSearchArchdeacon" value="deaconLevelSearch_archdeacon" autocomplete="servingTypeSearchArchdeacon" autofocus>
                                     </div>
                                     <div class="col-md-4 d-inline">
                                         <label class="col-form-label text-md-left">دياكون</label>
-                                        <input type="checkbox" id="deaconLevelSearch_deacon" class="@error('servingTypeSearch') is-invalid @enderror" name="servingTypeSearch" value="deaconLevelSearch_deacon" autocomplete="servingTypeSearch" autofocus>
+                                        <input type="checkbox" id="deaconLevelSearch_deacon" class="@error('servingTypeSearch') is-invalid @enderror" name="servingTypeSearchDeacon" value="deaconLevelSearch_deacon" autocomplete="servingTypeSearchDeacon" autofocus>
                                     </div>
                                 </div>
                                 @error('deaconLevelSearch')
