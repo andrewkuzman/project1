@@ -22,3 +22,5 @@ Route::resource('person', 'PersonsController',
     ['only' => ['create', 'show', 'store']]);
 Route::get('search', 'SearchController@search')->name('search');
 Route::get('/search/prepare', 'SearchController@prepare')->name('search.prepare');
+Route::get('/search/result', 'ResultController@index')->name('search.result');
+Route::get('/delete/{ssn}', 'PersonsController@delete')->name('delete');

@@ -1,99 +1,48 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
 
-        <title>Laravel</title>
+@section('content')
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-header text-md-right">نتائج البحث</div>
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">تسجيل دخول</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">انشاء حساب</a>
+                    <div class="card-body text-md-right">
+                        @if (session('status'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('status') }}
+                            </div>
                         @endif
-                    @endauth
-                </div>
-            @endif
+                    </div>
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Andrew
-                </div>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th class="text-md-center" scope="col">رقم المحمول</th>
+                            <th class="text-md-center" scope="col">الرقم القومي</th>
+                            <th class="text-md-center" scope="col">البريد الالكتروني</th>
+                            <th class="text-md-center" scope="col">الأسم كامل</th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                        @foreach ($result as $person)
+                            <tr>
+                            <td>
+                            <a class="btn btn-primary" href="#">تعديل</a>
+                            <a class="btn btn-danger m-lg-1" href="/delete/{{$person['ssn']}}">حذف</a>
+                            </td>
+                            <td class="text-md-center"> {{$person['mobile']}} </td>
+                            <td class="text-md-center"> {{$person['ssn']}} </td>
+                            <td class="text-md-center"> {{$person['email']}} </td>
+                            <td class="text-md-center"> {{$person['fullName']}} </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    </body>
-</html>
+    </div>
+@endsection

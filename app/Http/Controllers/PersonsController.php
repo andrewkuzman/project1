@@ -22,6 +22,15 @@ class PersonsController extends Controller
     }
 
     /**
+     * Delete the selected person.
+     *
+     */
+    public function delete($ssn){
+        DB::table('people')->where('ssn', $ssn)->delete();
+        return redirect()->back();
+    }
+
+    /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable

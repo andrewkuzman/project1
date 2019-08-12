@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class SearchController extends Controller
 {
@@ -365,8 +366,8 @@ class SearchController extends Controller
         }
     }
 
-    public function prepare(Request $request){
-        $d = DB::select('SELECT * FROM people WHERE '.$this->searchByGender().' AND '.$this->searchBySocialState().' AND '.$this->searchByName().' AND '.$this->searchBySsn().' AND '.$this->searchByMobileNumber().' AND '.$this->searchByEmail().' AND '.$this->searchByMotherName().' AND '.$this->searchByBirthDate().' AND '.$this->searchByEduQual().' AND '.$this->searchByAddress().' AND '.$this->searchByServingType().' AND '.$this->searchByDeaconLevel().' AND '.$this->searchByChurchName().' AND '.$this->searchByConfessionFatherName().' AND '.$this->searchByMarriageDate().' AND '.$this->searchByNumberOfChildren());
-        print_r($d);
+    public function prepare(){
+        $result = DB::select('SELECT * FROM people WHERE '.$this->searchByGender().' AND '.$this->searchBySocialState().' AND '.$this->searchByName().' AND '.$this->searchBySsn().' AND '.$this->searchByMobileNumber().' AND '.$this->searchByEmail().' AND '.$this->searchByMotherName().' AND '.$this->searchByBirthDate().' AND '.$this->searchByEduQual().' AND '.$this->searchByAddress().' AND '.$this->searchByServingType().' AND '.$this->searchByDeaconLevel().' AND '.$this->searchByChurchName().' AND '.$this->searchByConfessionFatherName().' AND '.$this->searchByMarriageDate().' AND '.$this->searchByNumberOfChildren());
+        return redirect()->route('search.result', ['result' => $result]);
     }
 }
