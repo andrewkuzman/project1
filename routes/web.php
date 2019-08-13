@@ -23,4 +23,4 @@ Route::resource('person', 'PersonsController',
 Route::get('search', 'SearchController@search')->name('search');
 Route::get('/search/prepare', 'SearchController@prepare')->name('search.prepare');
 Route::get('/search/result', 'ResultController@index')->name('search.result');
-Route::get('/delete/{ssn}', 'PersonsController@delete')->name('delete');
+Route::delete('/person', 'PersonsController@destroy')->name('person.destroy');

@@ -7,6 +7,7 @@ use App\Person;
 use App\Related;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
 use mysql_xdevapi\Exception;
 
 class PersonsController extends Controller
@@ -25,9 +26,13 @@ class PersonsController extends Controller
      * Delete the selected person.
      *
      */
-    public function delete($ssn){
+    public function destroy(){
+        $result = Input::get('result');
+        $index = Input::get('index');
+        $ssn = $result[$index]['ssn'];
+        array_splice($result, $index, 1);
         DB::table('people')->where('ssn', $ssn)->delete();
-        return redirect()->back();
+        return redirect()->route('search.result', ['result' => $result]);
     }
 
     /**

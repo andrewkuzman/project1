@@ -27,18 +27,26 @@
                         </thead>
                         <tbody>
 
-                        @foreach ($result as $person)
-                            <tr>
-                            <td>
-                            <a class="btn btn-primary" href="#">تعديل</a>
-                            <a class="btn btn-danger m-lg-1" href="/delete/{{$person['ssn']}}">حذف</a>
-                            </td>
-                            <td class="text-md-center"> {{$person['mobile']}} </td>
-                            <td class="text-md-center"> {{$person['ssn']}} </td>
-                            <td class="text-md-center"> {{$person['email']}} </td>
-                            <td class="text-md-center"> {{$person['fullName']}} </td>
-                            </tr>
-                        @endforeach
+                        @if($result != null)
+                            @php
+                                $index = -1;
+                            @endphp
+                            @foreach ($result as $person)
+                                @php
+                                    $index++;
+                                @endphp
+                                <tr>
+                                <td>
+                                <a class="btn btn-primary" href="#">تعديل</a>
+                                <a class="btn btn-danger m-lg-1" href="{{route('person.destroy', ['result' => $result, 'index' => $index])}}">حذف</a>
+                                </td>
+                                <td class="text-md-center"> {{$person['mobile']}} </td>
+                                <td class="text-md-center"> {{$person['ssn']}} </td>
+                                <td class="text-md-center"> {{$person['email']}} </td>
+                                <td class="text-md-center"> {{$person['fullName']}} </td>
+                                </tr>
+                            @endforeach
+                        @endif
                         </tbody>
                     </table>
                 </div>
