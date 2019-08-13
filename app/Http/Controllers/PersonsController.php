@@ -31,7 +31,7 @@ class PersonsController extends Controller
         $index = Input::get('index');
         $ssn = $result[$index]['ssn'];
         array_splice($result, $index, 1);
-        DB::table('people')->where('ssn', $ssn)->delete();
+        //DB::table('people')->where('ssn', $ssn)->delete();
         return redirect()->route('search.result', ['result' => $result]);
     }
 

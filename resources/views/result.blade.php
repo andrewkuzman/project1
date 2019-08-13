@@ -15,10 +15,10 @@
                         @endif
                     </div>
 
-                    <table class="table table-striped">
+                    <table class="table table-striped printable">
                         <thead>
                         <tr>
-                            <th></th>
+                            <th class="non-printable"></th>
                             <th class="text-md-center" scope="col">رقم المحمول</th>
                             <th class="text-md-center" scope="col">الرقم القومي</th>
                             <th class="text-md-center" scope="col">البريد الالكتروني</th>
@@ -36,9 +36,13 @@
                                     $index++;
                                 @endphp
                                 <tr>
-                                <td>
+                                <td class="non-printable">
+                                <form class="delete d-inline" action="{{route('person.destroy', ['result' => $result, 'index' => $index])}}" method="POST">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    {{ csrf_field() }}
+                                    <input type="submit" onclick="return confirm('هل انت متأكد انك تريد ان تحذف هذا الشخص ؟')" class="btn btn-danger m-lg-1" value="حذف">
+                                </form>
                                 <a class="btn btn-primary" href="#">تعديل</a>
-                                <a class="btn btn-danger m-lg-1" href="{{route('person.destroy', ['result' => $result, 'index' => $index])}}">حذف</a>
                                 </td>
                                 <td class="text-md-center"> {{$person['mobile']}} </td>
                                 <td class="text-md-center"> {{$person['ssn']}} </td>
@@ -49,6 +53,9 @@
                         @endif
                         </tbody>
                     </table>
+                    <div class="align-self-center mb-2 w-25">
+                        <a class="btn btn-success d-block" onclick="window.print()" href="#">طباعة</a>
+                    </div>
                 </div>
             </div>
         </div>

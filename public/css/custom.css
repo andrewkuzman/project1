@@ -1,5 +1,29 @@
-input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button
-{ 
-    -webkit-appearance: none; 
+{
+    -webkit-appearance: none;
+}
+@media print {
+    body{
+        visibility: hidden;
+    }
+    .printable {
+        visibility: visible;
+    }
+
+    .printable {
+        text-align: center;
+        position: absolute;
+        left: -85px;
+        top: 50px;
+    }
+
+    .non-printable{
+        visibility: hidden;
+    }
+}
+
+@page {
+    size: auto;   /* auto is the initial value */
+    margin: 0;  /* this affects the margin in the printer settings */
 }
