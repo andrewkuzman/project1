@@ -26,13 +26,23 @@ class PersonsController extends Controller
      * Delete the selected person.
      *
      */
-    public function destroy(){
-        $result = Input::get('result');
-        $index = Input::get('index');
-        $ssn = $result[$index]['ssn'];
-        array_splice($result, $index, 1);
-        //DB::table('people')->where('ssn', $ssn)->delete();
-        return redirect()->route('search.result', ['result' => $result]);
+    public function destroy($ssn){
+        $query = Input::get('query');
+        @unlink (DB::table('people')->where('ssn', $ssn)->value('img_url'));
+        $wifessn = DB::table('related')->where('husbandssn', $ssn)->where('memberType','wife')->value('memberssn');
+        $husbandssn = DB::table('related')->where('memberssn', $ssn)->where('memberType', 'wife')->value('husbandssn');
+        if(DB::table('people')->where('ssn', $wifessn)->value('ssn') == null){
+            DB::table('related')->where('husbandssn', $ssn)->delete();
+        }
+        else{
+            DB::table('related')->where('husbandssn', $ssn)->where('memberType', 'child')->delete();
+        }
+        if (DB::table('people')->where('ssn', $husbandssn)->value('ssn') == null){
+            DB::table('related')->where('memberssn', $ssn)->where('memberType', 'wife')->delete();
+        }
+        DB::table('people')->where('ssn', $ssn)->delete();
+        $result = DB::select($query);
+        return redirect()->route('search.result', ['result' => $result, 'query' => $query]);
     }
 
     /**
@@ -43,6 +53,15 @@ class PersonsController extends Controller
     public function create()
     {
         return view('persons.create');
+    }
+
+    /**
+     * Show the person data.
+     *
+     */
+    public function show()
+    {
+        return view('show');
     }
 
     public function store(CreatePersonRequest $request)

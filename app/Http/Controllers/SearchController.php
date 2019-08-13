@@ -367,7 +367,8 @@ class SearchController extends Controller
     }
 
     public function prepare(){
-        $result = DB::select('SELECT * FROM people WHERE '.$this->searchByGender().' AND '.$this->searchBySocialState().' AND '.$this->searchByName().' AND '.$this->searchBySsn().' AND '.$this->searchByMobileNumber().' AND '.$this->searchByEmail().' AND '.$this->searchByMotherName().' AND '.$this->searchByBirthDate().' AND '.$this->searchByEduQual().' AND '.$this->searchByAddress().' AND '.$this->searchByServingType().' AND '.$this->searchByDeaconLevel().' AND '.$this->searchByChurchName().' AND '.$this->searchByConfessionFatherName().' AND '.$this->searchByMarriageDate().' AND '.$this->searchByNumberOfChildren());
-        return redirect()->route('search.result', ['result' => $result]);
+        $query = 'SELECT * FROM people WHERE '.$this->searchByGender().' AND '.$this->searchBySocialState().' AND '.$this->searchByName().' AND '.$this->searchBySsn().' AND '.$this->searchByMobileNumber().' AND '.$this->searchByEmail().' AND '.$this->searchByMotherName().' AND '.$this->searchByBirthDate().' AND '.$this->searchByEduQual().' AND '.$this->searchByAddress().' AND '.$this->searchByServingType().' AND '.$this->searchByDeaconLevel().' AND '.$this->searchByChurchName().' AND '.$this->searchByConfessionFatherName().' AND '.$this->searchByMarriageDate().' AND '.$this->searchByNumberOfChildren();
+        $result = DB::select($query);
+        return redirect()->route('search.result', ['result' => $result, 'query' => $query]);
     }
 }

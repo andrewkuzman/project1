@@ -26,18 +26,15 @@
                         </tr>
                         </thead>
                         <tbody>
-
+                        @php
+                            use Illuminate\Support\Facades\Input;
+                            $query = Input::get('query');
+                        @endphp
                         @if($result != null)
-                            @php
-                                $index = -1;
-                            @endphp
                             @foreach ($result as $person)
-                                @php
-                                    $index++;
-                                @endphp
                                 <tr>
                                 <td class="non-printable">
-                                <form class="delete d-inline" action="{{route('person.destroy', ['result' => $result, 'index' => $index])}}" method="POST">
+                                <form class="d-inline" action="{{route('person.destroy', ['ssn' => $person['ssn'], 'query' => $query])}}" method="POST">
                                     <input type="hidden" name="_method" value="DELETE">
                                     {{ csrf_field() }}
                                     <input type="submit" onclick="return confirm('هل انت متأكد انك تريد ان تحذف هذا الشخص ؟')" class="btn btn-danger m-lg-1" value="حذف">
@@ -47,7 +44,7 @@
                                 <td class="text-md-center"> {{$person['mobile']}} </td>
                                 <td class="text-md-center"> {{$person['ssn']}} </td>
                                 <td class="text-md-center"> {{$person['email']}} </td>
-                                <td class="text-md-center"> {{$person['fullName']}} </td>
+                                <td class="text-md-center"> <a class="text-decoration-none text-dark" href="{{route('person.show', ['ssn' => $person['ssn']])}}">{{$person['fullName']}}</a> </td>
                                 </tr>
                             @endforeach
                         @endif
