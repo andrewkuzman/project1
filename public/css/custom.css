@@ -11,7 +11,7 @@ input[type=number]::-webkit-outer-spin-button
         visibility: visible;
     }
 
-    .printable {
+    .printable-result {
         text-align: center;
         position: absolute;
         left: -85px;
@@ -24,6 +24,5 @@ input[type=number]::-webkit-outer-spin-button
 }
 
 @page {
-    size: auto;   /* auto is the initial value */
     margin: 0;  /* this affects the margin in the printer settings */
 }

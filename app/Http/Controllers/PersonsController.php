@@ -88,16 +88,22 @@ class PersonsController extends Controller
         else if ($data['person']->socialState != "single" && $data['person']->gender == "female"){
             $husbandssn = DB::table('related')->where('memberssn', $ssn)->where('memberType', 'wife')->value('husbandssn');
             $data['spousessn'] = $husbandssn;
-            $husband = DB::table('people')->where('ssn', $husbandssn);
-            $data[1] = $husband;
-            $childrenssn = DB::select('SELECT * FROM related WHERE husbandssn = ' . $husbandssn . ' And memberType = child');
+            $husband = DB::select('SELECT * FROM people WHERE ssn = ' . $husbandssn);
+            $data['spouse'] = $husband;
+            $childrenssn = DB::select('SELECT memberssn FROM related WHERE husbandssn = ' . $husbandssn . ' And memberType = "child"');
+            $data['childrenssn'] = $childrenssn;
             if ($childrenssn != null) {
                 $index = 0;
+                $children = null;
                 foreach ($childrenssn as $childssn) {
-                    $child = DB::table('people')->where('ssn', $childssn);
-                    $children[$index++] = $child;
+                    $child = DB::select('SELECT * FROM people WHERE ssn = ' . $childssn->memberssn);
+                    if ($child != null){
+                        $children[$index++] = $child[0];
+                    }
                 }
-                $data[2] = $children;
+                if ($children != null){
+                    $data['children'] = $children;
+                }
             }
         }
         return view('persons.show')->with('data', $data);

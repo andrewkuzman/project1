@@ -15,7 +15,7 @@
                         @endif
                     </div>
 
-                    <table class="table table-striped printable">
+                    <table class="table table-striped printable printable-result">
                         <thead>
                         <tr>
                             <th class="non-printable"></th>

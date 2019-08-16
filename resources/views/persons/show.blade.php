@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container printable">
-        <div class="row justify-content-center">
+    <div class="container">
+        <div class="row justify-content-center printable">
             <div class="col-md-10">
                 <div class="card">
                     <div class="card-header text-md-right">عرض البيانات</div>
@@ -65,12 +65,11 @@
                             $socialState = "ارمل";
                         }
                         if ($socialState != "اعزب"){
-                            $spouseName = ".لم يتم تسجيل بيانات الزوج/الزوجة بعد";
-                            $childName = ".لم يتم تسجيل بيانات الابن بعد";
+                            $spouseName = "";
                             $childNumber = ["الاول", "الثاني", "الثالث", "الرابع", "الخامس", "السادس", "السابع", "الثامن", "التاسع", "العاشر", "الحادي عشر", "الثاني عشر", "الثالث عشر", "الرابع عشر", "الخامس عشر"];
                             $childNumberIndex = 0;
                             if ($data['spouse'] != null){
-                                $spouseName = $data['spouse']->fullName;
+                                $spouseName = $data['spouse'][0]->fullName;
                             }
                         }
                         $servingType = $data['person']->servingType;
@@ -113,20 +112,26 @@
                                 <label for="name" class="offset-7 col-md-3 col-form-label text-md-right">{{$data['spousessn']}}</label>
                                 <label for="name" class="col-md-2 col-form-label text-md-left">:الرقم القومي للزوجة</label>
                             </div>
-
                             <div class="form-group row">
-                                <label for="name" class="offset-6 col-md-4 col-form-label text-md-right">{{$spouseName}}</label>
+                                @if($spouseName != null)
+                                    <label for="name" class="offset-6 col-md-4 col-form-label text-md-right"><a class="text-decoration-none text-dark" href="{{route('person.show', ['ssn' => $data['spousessn']])}}">{{$spouseName}}</a></label>
+                                @else
+                                    <label for="name" class="offset-6 col-md-4 col-form-label text-md-right">.لم يتم تسجيل بيانات الزوجة بعد</label>
+                                @endif
                                 <label for="name" class="col-md-2 col-form-label text-md-left">:اسم الزوجة</label>
                             </div>
                         @elseif($gender == "انثي")
                             <div class="form-group row">
-                                <label for="name" class="offset-6 col-md-4 col-form-label text-md-right">{{$data['spousessn']}}</label>
+                                <label for="name" class="offset-7 col-md-3 col-form-label text-md-right">{{$data['spousessn']}}</label>
                                 <label for="name" class="col-md-2 col-form-label text-md-left">:الرقم القومي للزوج</label>
-
-                                <div class="form-group row">
-                                    <label for="name" class="offset-7 col-md-3 col-form-label text-md-right">{{$spouseName}}</label>
-                                    <label for="name" class="col-md-2 col-form-label text-md-left">:اسم الزوج</label>
-                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @if($spouseName != null)
+                                    <label for="name" class="offset-6 col-md-4 col-form-label text-md-right"><a class="text-decoration-none text-dark" href="{{route('person.show', ['ssn' => $data['spousessn']])}}">{{$spouseName}}</a></label>
+                                @else
+                                    <label for="name" class="offset-6 col-md-4 col-form-label text-md-right">.لم يتم تسجيل بيانات الزوج بعد</label>
+                                @endif
+                                <label for="name" class="col-md-2 col-form-label text-md-left">:اسم الزوج</label>
                             </div>
                         @endif
                         <div class="form-group row">
@@ -138,20 +143,25 @@
                             <label for="name" class="offset-6 col-md-4 col-form-label text-md-right">{{$data['person']->numOfChildren}}</label>
                             <label for="name" class="col-md-2 col-form-label text-md-left">:عدد الابناء</label>
                         </div>
+
+                        @foreach($data['childrenssn'] as $childssn)
+                            <div class="form-group row">
+                                <label for="name" class="offset-6 col-md-4 col-form-label text-md-right">{{$childssn->memberssn}}</label>
+                                <label for="name" class="col-md-2 col-form-label text-md-left">:الرقم القومي للابن {{$childNumber[$childNumberIndex++]}}</label>
+                            </div>
+                        @endforeach
+
+                        @for($i=0; $i < count($data['childrenssn']); $i++)
+                            <div class="form-group row">
+                                @if($data['children'] == null || !(array_key_exists($i, $data['children'])))
+                                    <label for="name" class="offset-6 col-md-4 col-form-label text-md-right">.لم يتم تسجيل بيانات الابن بعد</label>
+                                @else
+                                    <label for="name" class="offset-6 col-md-4 col-form-label text-md-right"><a class="text-decoration-none text-dark" href="{{route('person.show', ['ssn' => $data['children'][$i]->ssn])}}">{{$data['children'][$i]->fullName}}</a></label>
+                                @endif
+                                <label for="name" class="col-md-2 col-form-label text-md-left">:اسم الابن {{$childNumber[$i]}}</label>
+                            </div>
+                        @endfor
                     @endif
-
-                    @foreach($data['childrenssn'] as $childssn)
-                        <div class="form-group row">
-                            <label for="name" class="offset-6 col-md-4 col-form-label text-md-right">{{$childssn->memberssn}}</label>
-                            <label for="name" class="col-md-2 col-form-label text-md-left">:الرقم القومي للابن {{$childNumber[$childNumberIndex++]}}</label>
-                        </div>
-                    @endforeach
-
-                    @if($data['children'] != null)
-
-
-                    @endif
-
                     <div class="form-group row">
                         <label for="name" class="offset-7 col-md-3 col-form-label text-md-right">{{$servingType}}</label>
                         <label for="name" class="col-md-2 col-form-label text-md-left">:نوع الخدمة</label>
