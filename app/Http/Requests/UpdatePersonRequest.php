@@ -40,12 +40,15 @@ class UpdatePersonRequest extends FormRequest
      */
     public function rules()
     {
-        $data = DB::select('SELECT * FROM people WHERE ssn = ' . $this->all()->ssn);
-        dd($data);
+        $data = DB::select('SELECT * FROM people WHERE ssn = ' . $this->all()['originalssn']);
+        $wifessn = DB::select('SELECT memberssn FROM related WHERE husbandssn ='.$this->all()['originalssn'].' AND memberType = "wife"');
+        $husbandssn = DB::select('SELECT husbandssn FROM related WHERE memberssn ='.$this->all()['originalssn'].' AND memberType = "wife"');
+        $childrenssn = DB::select('SELECT memberssn FROM related WHERE husbandssn ='.$this->all()['originalssn'].' AND memberType = "child"');
+        $data = $data[0];
         $rules = ['name' => 'required|regex:/^[\pL\s\-]+$/u|max:40',
-            'ssn' =>'required|unique:people|size:14',
-            'mobile' => 'required|unique:people|size:11',
-            'email' => 'required|unique:people|email|max:50',
+            'ssn' =>'required|unique:people,ssn,'.$data->ssn.',ssn|size:14',
+            'mobile' => 'required|unique:people,mobile,'.$data->ssn.',ssn|size:11',
+            'email' => 'required|unique:people,email,'.$data->ssn.',ssn|email|max:50',
             'motherName' => 'required|regex:/^[\pL\s\-]+$/u|max:40',
             'gender' => 'required|in:male,female',
             'birthDate' => 'required|date|before:today',
@@ -57,7 +60,7 @@ class UpdatePersonRequest extends FormRequest
             'socialState' => 'required|in:socialState_single,socialState_married,socialState_widow',
             'church' => 'required|max:35',
             'confessFather' => 'required|alpha|max:40',
-            'personalPic' => 'required|image|max:2048',
+            'personalPic' => 'image|max:2048',
             'servingType' => 'in:ايتام,ابتدائي,اعدادي,ثانوي,شباب,اختار,اخوة الرب,مسنين',
         ];
         if($this->request->all()['gender'] == "female"){
@@ -69,7 +72,7 @@ class UpdatePersonRequest extends FormRequest
         if($this->request->all()['socialState'] != "socialState_single"){
             $rules ['numberofChildren'] = 'required|max:15';
             if ($this->request->all()['gender'] == "male"){
-                $checkAlreadyExist = DB::table('related')->where('husbandssn', $this->request->all()['ssn'])->where('memberType','wife')->value('memberssn');
+                $checkAlreadyExist = DB::table('related')->where('husbandssn', $this->request->all()['originalssn'])->where('memberType','wife')->value('memberssn');
                 $checkWifeGender = DB::table('people')->where('ssn', $this->request->all()['wifessn'])->value('gender');
                 $checkIfSingle = DB::table('people')->where('ssn',$this->request->all()['wifessn'])->where('socialState','single')->value('ssn');
                 $checkNumberOfChildren = DB::table('people')->where('ssn',$this->request->all()['wifessn'])->value('numOfChildren');
@@ -77,7 +80,7 @@ class UpdatePersonRequest extends FormRequest
                     $rules['gender'] = 'not_in:'.$checkWifeGender;
                 }
                 if ($checkAlreadyExist == null){
-                    $rules ['wifessn'] = 'required|unique:related,memberssn|size:14|not_in:'.$this->request->all()['ssn'].','.$checkIfSingle;
+                    $rules ['wifessn'] = 'required|unique:related,memberssn,'.$wifessn[0]->memberssn.',memberssn|size:14|not_in:'.$this->request->all()['ssn'].','.$checkIfSingle;
                     $rules ['marriageDate'] = 'required|before:today|date|greater_year:birthDate';
                 }
                 else{
@@ -88,11 +91,11 @@ class UpdatePersonRequest extends FormRequest
                     $rules['numberofChildren'] = $rules['numberofChildren'] . '|in:'.$checkNumberOfChildren;
                 }
                 for ($i = 1; $i <= $this->all()['numberofChildren']; $i++){
-                    $rules ['childssn' . $i] = 'required|unique:related,memberssn|unique:people,ssn|size:14|not_in:'.$this->request->all()['ssn'].','.$this->request->all()['wifessn'].','.self::childValidation($this->request->all()['numberofChildren'],$i);
+                    $rules ['childssn' . $i] = 'required|unique:related,memberssn,'.$childrenssn[$i-1]->memberssn.',memberssn|unique:people,ssn,'.$childrenssn[$i-1]->memberssn.',ssn|size:14|not_in:'.$this->request->all()['ssn'].','.$this->request->all()['wifessn'].','.self::childValidation($this->request->all()['numberofChildren'],$i);
                 }
             }
             else{
-                $checkAlreadyExist = DB::table('related')->where('memberssn', $this->request->all()['ssn'])->where('memberType','wife')->value('husbandssn');
+                $checkAlreadyExist = DB::table('related')->where('memberssn', $this->request->all()['originalssn'])->where('memberType','wife')->value('husbandssn');
                 $checkHusbandGender = DB::table('people')->where('ssn', $this->request->all()['husbandssn'])->value('gender');
                 $checkIfSingle = DB::table('people')->where('ssn',$this->request->all()['husbandssn'])->where('socialState','single')->value('ssn');
                 $checkNumberOfChildren = DB::table('people')->where('ssn',$this->request->all()['husbandssn'])->value('numOfChildren');
@@ -114,11 +117,11 @@ class UpdatePersonRequest extends FormRequest
         }
         else{
             if ($this->request->all()['gender'] == "male") {
-                $checkIfSingle = DB::table('related')->where('husbandssn', $this->request->all()['ssn'])->value('husbandssn');
+                $checkIfSingle = DB::table('related')->where('husbandssn', $this->request->all()['originalssn'])->value('husbandssn');
                 $rules['ssn'] = 'not_in:'.$checkIfSingle;
             }
             else{
-                $checkIfSingle = DB::table('related')->where('memberssn', $this->request->all()['ssn'])->where('memberType','wife')->value('memberssn');
+                $checkIfSingle = DB::table('related')->where('memberssn', $this->request->all()['originalssn'])->where('memberType','wife')->value('memberssn');
                 $rules['ssn'] = 'not_in:'.$checkIfSingle;
             }
         }
@@ -245,7 +248,6 @@ class UpdatePersonRequest extends FormRequest
             'church.max' => 'يجب ان لا يتعدي اسم الكنيسة ال35 حرف .',
             'confessFather.required' => 'برجاء ادخال اسم الكنيسة.',
             'confessFather.max' => 'يجب ان لا يتعدي اسم اب الاعتراف ال40 حرف .',
-            'personalPic.required' => 'برجاء اختيار الصورة الشخصية.',
             'personalPic.image' => 'يجب ان تكون الصورة من نوع jpeg, png, bmp, gif, svg.',
             'personalPic.max' => 'يجب ان تكون الصورة اصغر من 2 ميجابايت.',
         ];

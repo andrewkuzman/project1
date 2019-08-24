@@ -2,13 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="643cd54d-7efa-4c0c-ba3f-9cccb7638b58" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/persons/edit.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PersonsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PersonsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/customJSlib.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/customJSlib.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/persons/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/persons/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/result.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/result.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UpdatePersonRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdatePersonRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/persons/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/persons/edit.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -260,7 +257,7 @@
       <workItem from="1566101329465" duration="268000" />
       <workItem from="1566101619594" duration="1433000" />
       <workItem from="1566479655075" duration="21504000" />
-      <workItem from="1566609876830" duration="2322000" />
+      <workItem from="1566609876830" duration="11999000" />
     </task>
     <servers />
   </component>

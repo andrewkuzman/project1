@@ -10,6 +10,7 @@
                 <div class="card-body">
                     <form action="{{route('person.update', $data[0]->ssn)}}" enctype="multipart/form-data" method="POST">
                         <input type="hidden" name="_method" value="put" />
+                        <input type="hidden" name="originalssn" value="{{$data[0]->ssn}}" />
                         @csrf
                         @if($errors->any())
                             <ul dir="rtl" class="text-right alert alert-danger">
@@ -310,9 +311,9 @@
                                 @for ($i = 1; $i <= $data[0]->numOfChildren; $i++)
                                     <div class="generatessn socialStateDiv form-group row">
                                         <div class="col-md-6 offset-md-2">
-                                            <input id="{{"childssn".($i-1)}}" type="number" min="0" oninput="validity.valid||(value='');" class="form-control" name="{{"childssn".($i-1)}}" value="{{ $data[2][$i-1]->memberssn }}" required autocomplete="{{"childssn".($i-1)}}" autofocus>
+                                            <input id="{{"childssn".($i)}}" type="number" min="0" oninput="validity.valid||(value='');" class="form-control" name="{{"childssn".($i)}}" value="{{ $data[2][$i-1]->memberssn }}" required autocomplete="{{"childssn".($i)}}" autofocus>
                                         </div>
-                                        <label for="{{"childssn".($i-1)}}" class="col-md-4 col-form-label text-md-left"> الرقم القومي للابن/الابنة {{$childNumber[$i-1]}}</label>
+                                        <label for="{{"childssn".($i)}}" class="col-md-4 col-form-label text-md-left"> الرقم القومي للابن/الابنة {{$childNumber[$i-1]}}</label>
                                     </div>
                                 @endfor
                             @endif

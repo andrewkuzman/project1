@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreatePersonRequest;
+use App\Http\Requests\UpdatePersonRequest;
 use App\Person;
 use App\Related;
 use Illuminate\Http\Request;
@@ -28,7 +29,30 @@ class PersonsController extends Controller
      */
     public function update(UpdatePersonRequest $request)
     {
-        dd($request->all());
+        $updatedData = ['ssn' => $request->all()['ssn'],
+        'fullName' => $request->all()['name'],
+        'mobile' => $request->all()['mobile'],
+        'email' => $request->all()['email'],
+        'motherName' => $request->all()['motherName'],
+        'gender' => $request->all()['gender'],
+        'birthDate' => $request->all()['birthDate'],
+        'eduQual' => $request->all()['edcQual'],
+        'city' => $request->all()['city'],
+        'governorate' => $request->all()['governorate'],
+        'street' => $request->all()['street'],
+        'building' => $request->all()['building'],
+        'servingType' => $request->all()['servingType'],
+        'deaconLevel' => $request->all()['deaconLevel'],
+        'church' => $request->all()['church'],
+        'confessFather' => $request->all()['confessFather']];
+        DB::table('people')->where('ssn', $request->all()['originalssn'])->update($updatedData);
+        if ($request->all()['socialState'] == "socialState_single"){
+            $updatedData = ['socialState'=> 'single',
+                'marriageDate' => null,
+                'numOfChildren' => null];
+            DB::table('people')->where('ssn', $request->all()['originalssn'])->update($updatedData);
+
+        }
     }
 
     /**
