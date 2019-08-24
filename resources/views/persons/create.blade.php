@@ -8,7 +8,7 @@
                 <div class="card-header text-md-right">تسجيل بيانات</div>
 
                 <div class="card-body">
-                    <form action="/person" enctype="multipart/form-data" method="POST">
+                    <form action="{{route('person.store')}}" enctype="multipart/form-data" method="POST">
                         @csrf
                         @if($errors->any())
                             <ul dir="rtl" class="text-right alert alert-danger">
@@ -101,7 +101,7 @@
                             <div class="col-md-6 offset-md-2">
                                 <div class="col-md-4 offset-md-4 d-inline">
                                     <label class="col-form-label text-md-left">انثي</label>
-                                    <input type="radio" id="female" class="gender @error('gender') is-invalid @enderror" name="gender" value="female" @if(old('gender')) checked @endif required autocomplete="gender" autofocus>
+                                    <input type="radio" id="female" class="gender @error('gender') is-invalid @enderror" name="gender" value="female" @if(old('gender')) @endif required autocomplete="gender" autofocus>
                                 </div>
                                 <div class="col-md-4 d-inline">
                                     <label class="col-form-label text-md-left">ذكر</label>
@@ -324,7 +324,8 @@
 
                         <div class="form-group row">
                             <div class="col-md-3 offset-md-2">
-                                <input id="personalPic" type="file" accept="image/*" class="w-auto form-control @error('personalPic') is-invalid @enderror" name="personalPic" required autocomplete="personalPic" autofocus>
+                                <img src="" alt="profile image" id="previewPersonalPic" class="m-auto w-100 mb-2" hidden>
+                                <input id="personalPic" type="file" accept="image/*" onchange="changeImg(this)" class="w-auto form-control @error('personalPic') is-invalid @enderror" name="personalPic" required autocomplete="personalPic" autofocus>
 
                                 @error('personalPic')
                                     <span class="invalid-feedback" role="alert">

@@ -23,6 +23,36 @@ class PersonsController extends Controller
     }
 
     /**
+     * Update a person.
+     *
+     */
+    public function update(UpdatePersonRequest $request)
+    {
+        dd($request->all());
+    }
+
+    /**
+     * Edit a person.
+     *
+     */
+    public function edit($ssn)
+    {
+        $data = DB::select('SELECT * FROM people WHERE ssn = ' . $ssn);
+        $childrenssn = null;
+        if ($data[0]->gender == "male" && $data[0]->socialState != "single"){
+            $spousessn = DB::select('SELECT memberssn FROM related WHERE husbandssn ='.$data[0]->ssn.' AND memberType = "wife"');
+            $childrenssn = DB::select('SELECT memberssn FROM related WHERE husbandssn ='.$data[0]->ssn.' AND memberType = "child"');
+            $data[1]= $spousessn[0];
+            $data[2] = $childrenssn;
+        }
+        elseif($data[0]->gender == "female" && $data[0]->socialState != "single"){
+            $spousessn = DB::select('SELECT husbandssn FROM related WHERE memberssn ='.$data[0]->ssn.' AND memberType = "wife"');
+            $data[1]= $spousessn[0];
+        }
+        return view('persons.edit')->with('data', $data);
+    }
+
+    /**
      * Delete the selected person.
      *
      */

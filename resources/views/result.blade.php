@@ -39,7 +39,7 @@
                                     {{ csrf_field() }}
                                     <input type="submit" onclick="return confirm('هل انت متأكد انك تريد ان تحذف هذا الشخص ؟')" class="btn btn-danger m-lg-1" value="حذف">
                                 </form>
-                                <a class="btn btn-primary" href="#">تعديل</a>
+                                <a class="btn btn-primary" href="{{route('person.edit', ['ssn' => $person['ssn']])}}">تعديل</a>
                                 </td>
                                 <td class="text-md-center"> {{$person['mobile']}} </td>
                                 <td class="text-md-center"> {{$person['ssn']}} </td>

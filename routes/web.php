@@ -19,7 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('person', 'PersonsController',
-    ['only' => ['create', 'show', 'store', 'destroy']]);
+    ['only' => ['create', 'show', 'store', 'destroy', 'edit', 'update']]);
 Route::get('search', 'SearchController@search')->name('search');
 Route::get('/search/prepare', 'SearchController@prepare')->name('search.prepare');
 Route::get('/search/result', 'ResultController@index')->name('search.result');

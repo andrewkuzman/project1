@@ -451,3 +451,14 @@ function checkSocialStateSearch(){
     });
 }
 
+//preview profile pic before submiting
+function changeImg(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#previewPersonalPic')
+                .attr('src', e.target.result).prop('hidden',false);
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
