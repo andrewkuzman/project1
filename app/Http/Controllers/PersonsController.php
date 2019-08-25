@@ -30,29 +30,74 @@ class PersonsController extends Controller
     public function update(UpdatePersonRequest $request)
     {
         $updatedData = ['ssn' => $request->all()['ssn'],
-        'fullName' => $request->all()['name'],
-        'mobile' => $request->all()['mobile'],
-        'email' => $request->all()['email'],
-        'motherName' => $request->all()['motherName'],
-        'gender' => $request->all()['gender'],
-        'birthDate' => $request->all()['birthDate'],
-        'eduQual' => $request->all()['edcQual'],
-        'city' => $request->all()['city'],
-        'governorate' => $request->all()['governorate'],
-        'street' => $request->all()['street'],
-        'building' => $request->all()['building'],
-        'servingType' => $request->all()['servingType'],
-        'deaconLevel' => $request->all()['deaconLevel'],
-        'church' => $request->all()['church'],
-        'confessFather' => $request->all()['confessFather']];
+            'fullName' => $request->all()['name'],
+            'mobile' => $request->all()['mobile'],
+            'email' => $request->all()['email'],
+            'motherName' => $request->all()['motherName'],
+            'gender' => $request->all()['gender'],
+            'birthDate' => $request->all()['birthDate'],
+            'eduQual' => $request->all()['edcQual'],
+            'city' => $request->all()['city'],
+            'governorate' => $request->all()['governorate'],
+            'street' => $request->all()['street'],
+            'building' => $request->all()['building'],
+            'servingType' => $request->all()['servingType'],
+            'deaconLevel' => $request->all()['deaconLevel'],
+            'church' => $request->all()['church'],
+            'confessFather' => $request->all()['confessFather']];
+        if (array_key_exists('personalPic',$request->all())){
+            @unlink (DB::table('people')->where('ssn', $request->all()['originalssn'])->value('img_url'));
+            $img_path = 'storage/' . request('personalPic')->store('uploads','public');
+            $updatedData['img_url'] = $img_path;
+        }
         DB::table('people')->where('ssn', $request->all()['originalssn'])->update($updatedData);
-        if ($request->all()['socialState'] == "socialState_single"){
-            $updatedData = ['socialState'=> 'single',
+        if ($request->all()['socialState'] == "socialState_single") {
+            $updatedData = ['socialState' => 'single',
                 'marriageDate' => null,
                 'numOfChildren' => null];
-            DB::table('people')->where('ssn', $request->all()['originalssn'])->update($updatedData);
-
+            DB::table('people')->where('ssn', $request->all()['ssn'])->update($updatedData);
+        } else {
+            if ($request->all()['socialState'] == "socialState_married") {
+                $updatedData = ['socialState' => 'married',
+                    'marriageDate' => $request->all()['marriageDate'],
+                    'numOfChildren' => $request->all()['numberofChildren']];
+            } else {
+                $updatedData = ['socialState' => 'widow',
+                    'marriageDate' => $request->all()['marriageDate'],
+                    'numOfChildren' => $request->all()['numberofChildren']];
+            }
+            DB::table('people')->where('ssn', $request->all()['ssn'])->update($updatedData);
+            if ($request->all()['gender'] == "male") {
+                $check = DB::table('related')->where('memberssn', $request->all()['wifessn'])->where('memberType','wife')->value('memberssn');
+                if ($check == null) {
+                    $related = new Related();
+                    $related->memberssn = $request->all()['wifessn'];
+                    $related->memberType = "wife";
+                    $related->husbandssn = $request->all()['ssn'];
+                    $related->save();
+                }
+                for ($i = 1; $i <=$request->all()['numberofChildren']; $i++){
+                    if (DB::table('related')->where('memberssn', $request->all()['childssn'.$i])->where('memberType','child')->value('memberssn') == null){
+                        $relatedChild = new Related();
+                        $relatedChild->memberssn = $request->all()['childssn'.$i];
+                        $relatedChild->memberType = "child";
+                        $relatedChild->husbandssn = $request->all()['ssn'];
+                        $relatedChild->save();
+                    }
+                }
+            }
+            else {
+                $check = DB::table('related')->where('memberssn', $request->all()['ssn'])->where('memberType','wife')->value('memberssn');
+                if ($check == null) {
+                    $related = new Related();
+                    $related->memberssn = $request->all()['ssn'];
+                    $related->memberType = "wife";
+                    $related->husbandssn = $request->all()['husbandssn'];
+                    $related->save();
+                }
+            }
         }
+        return redirect()->route('search')->with('success','تم تعديل البيانات بنجاح');
     }
 
     /**
@@ -215,7 +260,7 @@ class PersonsController extends Controller
                     $relatedChild->husbandssn = $data['ssn'];
                     $relatedChild->save();
                 }
-                $check = DB::table('related')->where('memberssn', $data['wifessn'])->value('memberssn');
+                $check = DB::table('related')->where('memberssn', $data['wifessn'])->where('memberType','wife')->value('memberssn');
                 if ($check == null){
                     $related->memberssn=$data['wifessn'];
                     $related->memberType="wife";
@@ -224,7 +269,7 @@ class PersonsController extends Controller
                 }
             }
             else{
-                $check = DB::table('related')->where('husbandssn', $data['husbandssn'])->value('memberssn');
+                $check = DB::table('related')->where('husbandssn', $data['husbandssn'])->where('memberType','wife')->value('memberssn');
                 if ($check == null){
                     $related->memberssn=$data['ssn'];
                     $related->memberType="wife";

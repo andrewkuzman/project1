@@ -11,6 +11,12 @@
                     <form method="GET" action="/search/prepare">
                         @csrf
 
+                        @if(session()->has('success'))
+                            <ul dir="rtl" class="text-right alert alert-success">
+                                <li>{{ session()->get('success') }}</li>
+                            </ul>
+                        @endif
+
                         <div class="form-group row text">
                             <div class="col-md-6 offset-md-2">
                                 <div class="col-md-4 offset-md-4 d-inline">

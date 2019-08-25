@@ -80,18 +80,30 @@ class UpdatePersonRequest extends FormRequest
                     $rules['gender'] = 'not_in:'.$checkWifeGender;
                 }
                 if ($checkAlreadyExist == null){
-                    $rules ['wifessn'] = 'required|unique:related,memberssn,'.$wifessn[0]->memberssn.',memberssn|size:14|not_in:'.$this->request->all()['ssn'].','.$checkIfSingle;
+                    if ($wifessn != null){
+                        $rules ['wifessn'] = 'required|unique:related,memberssn,'.$wifessn[0]->memberssn.',memberssn|size:14|not_in:'.$this->request->all()['ssn'].','.$checkIfSingle;
+                    }
+                    else{
+                        $rules ['wifessn'] = 'required|unique:related,memberssn|size:14|not_in:'.$this->request->all()['ssn'].','.$checkIfSingle;
+                    }
                     $rules ['marriageDate'] = 'required|before:today|date|greater_year:birthDate';
                 }
-                else{
+                elseif(DB::table('people')->where('ssn', $this->request->all()['wifessn'])->value('marriageDate') != null){
                     $rules ['wifessn'] = 'required|size:14|in:'.$checkAlreadyExist.'|not_in:'.$this->request->all()['ssn'].','.$checkIfSingle;
                     $rules ['marriageDate'] = 'required|before:today|date|greater_year:birthDate|in:'.DB::table('people')->where('ssn', $this->request->all()['wifessn'])->value('marriageDate');
                 }
                 if ($checkNumberOfChildren != null){
                     $rules['numberofChildren'] = $rules['numberofChildren'] . '|in:'.$checkNumberOfChildren;
                 }
-                for ($i = 1; $i <= $this->all()['numberofChildren']; $i++){
-                    $rules ['childssn' . $i] = 'required|unique:related,memberssn,'.$childrenssn[$i-1]->memberssn.',memberssn|unique:people,ssn,'.$childrenssn[$i-1]->memberssn.',ssn|size:14|not_in:'.$this->request->all()['ssn'].','.$this->request->all()['wifessn'].','.self::childValidation($this->request->all()['numberofChildren'],$i);
+                if ($childrenssn != null){
+                    for ($i = 1; $i <= $this->all()['numberofChildren']; $i++){
+                        $rules ['childssn' . $i] = 'required|unique:related,memberssn,'.$childrenssn[$i-1]->memberssn.',memberssn|unique:people,ssn,'.$childrenssn[$i-1]->memberssn.',ssn|size:14|not_in:'.$this->request->all()['ssn'].','.$this->request->all()['wifessn'].','.self::childValidation($this->request->all()['numberofChildren'],$i);
+                    }
+                }
+                else{
+                    for ($i = 1; $i <= $this->all()['numberofChildren']; $i++){
+                        $rules ['childssn' . $i] = 'required|unique:related,memberssn|unique:people,ssn|size:14|not_in:'.$this->request->all()['ssn'].','.$this->request->all()['wifessn'].','.self::childValidation($this->request->all()['numberofChildren'],$i);
+                    }
                 }
             }
             else{
