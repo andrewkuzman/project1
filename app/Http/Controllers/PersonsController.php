@@ -7,6 +7,7 @@ use App\Http\Requests\UpdatePersonRequest;
 use App\Person;
 use App\Related;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use mysql_xdevapi\Exception;
@@ -106,19 +107,24 @@ class PersonsController extends Controller
      */
     public function edit($ssn)
     {
-        $data = DB::select('SELECT * FROM people WHERE ssn = ' . $ssn);
-        $childrenssn = null;
-        if ($data[0]->gender == "male" && $data[0]->socialState != "single"){
-            $spousessn = DB::select('SELECT memberssn FROM related WHERE husbandssn ='.$data[0]->ssn.' AND memberType = "wife"');
-            $childrenssn = DB::select('SELECT memberssn FROM related WHERE husbandssn ='.$data[0]->ssn.' AND memberType = "child"');
-            $data[1]= $spousessn[0];
-            $data[2] = $childrenssn;
+        if (Auth::User()->isSuper == true || Auth::User()->isAdmin == true){
+            $data = DB::select('SELECT * FROM people WHERE ssn = ' . $ssn);
+            $childrenssn = null;
+            if ($data[0]->gender == "male" && $data[0]->socialState != "single"){
+                $spousessn = DB::select('SELECT memberssn FROM related WHERE husbandssn ='.$data[0]->ssn.' AND memberType = "wife"');
+                $childrenssn = DB::select('SELECT memberssn FROM related WHERE husbandssn ='.$data[0]->ssn.' AND memberType = "child"');
+                $data[1]= $spousessn[0];
+                $data[2] = $childrenssn;
+            }
+            elseif($data[0]->gender == "female" && $data[0]->socialState != "single"){
+                $spousessn = DB::select('SELECT husbandssn FROM related WHERE memberssn ='.$data[0]->ssn.' AND memberType = "wife"');
+                $data[1]= $spousessn[0];
+            }
+            return view('persons.edit')->with('data', $data);
         }
-        elseif($data[0]->gender == "female" && $data[0]->socialState != "single"){
-            $spousessn = DB::select('SELECT husbandssn FROM related WHERE memberssn ='.$data[0]->ssn.' AND memberType = "wife"');
-            $data[1]= $spousessn[0];
+        else{
+            return redirect()->route('home');
         }
-        return view('persons.edit')->with('data', $data);
     }
 
     /**
@@ -160,52 +166,57 @@ class PersonsController extends Controller
      */
     public function show($ssn)
     {
-        $person = DB::select('SELECT * FROM people WHERE ssn = ' . $ssn);
-        $data['person'] = $person[0];
-        $data['children'] = [];
-        if ($data['person']->socialState != "single" && $data['person']->gender == "male") {
-            $wifessn = DB::table('related')->where('husbandssn', $ssn)->where('memberType', 'wife')->value('memberssn');
-            $data['spousessn'] = $wifessn;
-            $wife = DB::select('SELECT * FROM people WHERE ssn = ' . $wifessn);
-            $data['spouse'] = $wife;
-            $childrenssn = DB::select('SELECT memberssn FROM related WHERE husbandssn = ' . $ssn . ' And memberType = "child"');
-            $data['childrenssn'] = $childrenssn;
-            if ($childrenssn != null) {
-                $index = 0;
-                $children = null;
-                foreach ($childrenssn as $childssn) {
-                    $child = DB::select('SELECT * FROM people WHERE ssn = ' . $childssn->memberssn);
-                    if ($child != null){
-                        $children[$index++] = $child[0];
+        if (Auth::User()->isSuper == true || Auth::User()->isAdmin == true) {
+            $person = DB::select('SELECT * FROM people WHERE ssn = ' . $ssn);
+            $data['person'] = $person[0];
+            $data['children'] = [];
+            if ($data['person']->socialState != "single" && $data['person']->gender == "male") {
+                $wifessn = DB::table('related')->where('husbandssn', $ssn)->where('memberType', 'wife')->value('memberssn');
+                $data['spousessn'] = $wifessn;
+                $wife = DB::select('SELECT * FROM people WHERE ssn = ' . $wifessn);
+                $data['spouse'] = $wife;
+                $childrenssn = DB::select('SELECT memberssn FROM related WHERE husbandssn = ' . $ssn . ' And memberType = "child"');
+                $data['childrenssn'] = $childrenssn;
+                if ($childrenssn != null) {
+                    $index = 0;
+                    $children = null;
+                    foreach ($childrenssn as $childssn) {
+                        $child = DB::select('SELECT * FROM people WHERE ssn = ' . $childssn->memberssn);
+                        if ($child != null){
+                            $children[$index++] = $child[0];
+                        }
+                    }
+                    if ($children != null){
+                        $data['children'] = $children;
                     }
                 }
-                if ($children != null){
-                    $data['children'] = $children;
-                }
             }
-        }
-        else if ($data['person']->socialState != "single" && $data['person']->gender == "female"){
-            $husbandssn = DB::table('related')->where('memberssn', $ssn)->where('memberType', 'wife')->value('husbandssn');
-            $data['spousessn'] = $husbandssn;
-            $husband = DB::select('SELECT * FROM people WHERE ssn = ' . $husbandssn);
-            $data['spouse'] = $husband;
-            $childrenssn = DB::select('SELECT memberssn FROM related WHERE husbandssn = ' . $husbandssn . ' And memberType = "child"');
-            $data['childrenssn'] = $childrenssn;
-            if ($childrenssn != null) {
-                $index = 0;
-                $children = null;
-                foreach ($childrenssn as $childssn) {
-                    $child = DB::select('SELECT * FROM people WHERE ssn = ' . $childssn->memberssn);
-                    if ($child != null){
-                        $children[$index++] = $child[0];
+            else if ($data['person']->socialState != "single" && $data['person']->gender == "female"){
+                $husbandssn = DB::table('related')->where('memberssn', $ssn)->where('memberType', 'wife')->value('husbandssn');
+                $data['spousessn'] = $husbandssn;
+                $husband = DB::select('SELECT * FROM people WHERE ssn = ' . $husbandssn);
+                $data['spouse'] = $husband;
+                $childrenssn = DB::select('SELECT memberssn FROM related WHERE husbandssn = ' . $husbandssn . ' And memberType = "child"');
+                $data['childrenssn'] = $childrenssn;
+                if ($childrenssn != null) {
+                    $index = 0;
+                    $children = null;
+                    foreach ($childrenssn as $childssn) {
+                        $child = DB::select('SELECT * FROM people WHERE ssn = ' . $childssn->memberssn);
+                        if ($child != null){
+                            $children[$index++] = $child[0];
+                        }
+                    }
+                    if ($children != null){
+                        $data['children'] = $children;
                     }
                 }
-                if ($children != null){
-                    $data['children'] = $children;
-                }
             }
+            return view('persons.show')->with('data', $data);
         }
-        return view('persons.show')->with('data', $data);
+        else{
+            return redirect()->route('home');
+        }
     }
 
     public function store(CreatePersonRequest $request)

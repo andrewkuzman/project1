@@ -35,7 +35,7 @@
                                     </span>
                                 @enderror
                             </div>
-                            
+
                             <label for="email" class="col-md-4 col-form-label text-md-left">البريد الالكتروني</label>
                         </div>
 
@@ -49,7 +49,7 @@
                                     </span>
                                 @enderror
                             </div>
-                            
+
                             <label for="username" class="col-md-4 col-form-label text-md-left">اسم المستخدم</label>
                         </div>
 
@@ -71,9 +71,20 @@
                             <div class="col-md-6 offset-md-2">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
- 
+
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-left">تأكيد كلمة السر</label>
                         </div>
+
+                        @if(Auth::User()->isSuper==true)
+                            <div class="form-group row">
+                                <div class="col-md-4 offset-md-4">
+                                    لا<input id="isAdminYes" type="radio" class="mr-3" name="isAdmin" value="yes">
+                                    نعم<input id="isAdminNo" type="radio" class="mr-3" name="isAdmin" value="no" checked>
+                                </div>
+
+                                <label for="password-confirm" class="col-md-4 col-form-label text-md-left">حساب مشرف</label>
+                            </div>
+                        @endif
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">

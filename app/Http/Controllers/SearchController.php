@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
@@ -19,7 +20,12 @@ class SearchController extends Controller
     }
 
     public function search(){
-        return view('search');
+        if (Auth::User()->isSuper == true || Auth::User()->isAdmin == true){
+            return view('search');
+        }
+        else{
+            return redirect()->route('home');
+        }
     }
 
     public function searchByGender(){

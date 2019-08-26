@@ -72,9 +72,6 @@
                     @else
                         <a href="{{ route('login') }}">تسجيل دخول</a>
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">انشاء حساب</a>
-                        @endif
                     @endauth
                 </div>
             @endif

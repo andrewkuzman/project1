@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 
 class ResultController extends Controller
@@ -23,7 +24,12 @@ class ResultController extends Controller
      */
     public function index()
     {
-        $result = Input::get('result');
-        return view('result')->with('result', $result);
+        if (Auth::User()->isSuper == true || Auth::User()->isAdmin == true) {
+            $result = Input::get('result');
+            return view('result')->with('result', $result);
+        }
+        else{
+            return view('welcome');
+        }
     }
 }
