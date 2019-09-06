@@ -5,9 +5,9 @@
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card">
-                    <div class="card-header text-md-right">نتائج البحث</div>
+                    <div class="card-header">نتائج البحث</div>
 
-                    <div class="card-body text-md-right">
+                    <div class="card-body text-md-left">
                         @if (session('status'))
                             <div class="alert alert-success" role="alert">
                                 {{ session('status') }}
@@ -18,11 +18,11 @@
                     <table class="table table-striped printable printable-result">
                         <thead>
                         <tr>
-                            <th class="non-printable"></th>
-                            <th class="text-md-center" scope="col">رقم المحمول</th>
-                            <th class="text-md-center" scope="col">الرقم القومي</th>
-                            <th class="text-md-center" scope="col">البريد الالكتروني</th>
                             <th class="text-md-center" scope="col">الأسم كامل</th>
+                            <th class="text-md-center" scope="col">البريد الالكتروني</th>
+                            <th class="text-md-center" scope="col">الرقم القومي</th>
+                            <th class="text-md-center" scope="col">رقم المحمول</th>
+                            <th class="non-printable"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -33,18 +33,18 @@
                         @if($result != null)
                             @foreach ($result as $person)
                                 <tr>
-                                <td class="non-printable">
-                                <form class="d-inline" action="{{route('person.destroy', ['ssn' => $person['ssn'], 'query' => $query])}}" method="POST">
-                                    <input type="hidden" name="_method" value="DELETE">
-                                    {{ csrf_field() }}
-                                    <input type="submit" onclick="return confirm('هل انت متأكد انك تريد ان تحذف هذا الشخص ؟')" class="btn btn-danger m-lg-1" value="حذف">
-                                </form>
-                                <a class="btn btn-primary" href="{{route('person.edit', ['ssn' => $person['ssn']])}}">تعديل</a>
-                                </td>
-                                <td class="text-md-center"> {{$person['mobile']}} </td>
-                                <td class="text-md-center"> {{$person['ssn']}} </td>
-                                <td class="text-md-center"> {{$person['email']}} </td>
-                                <td class="text-md-center"> <a class="text-decoration-none text-dark" href="{{route('person.show', ['ssn' => $person['ssn']])}}">{{$person['fullName']}}</a> </td>
+                                    <td class="text-md-center"> <a class="text-decoration-none text-dark" href="{{route('person.show', ['ssn' => $person['ssn']])}}">{{$person['fullName']}}</a> </td>
+                                    <td class="text-md-center"> {{$person['email']}} </td>
+                                    <td class="text-md-center"> {{$person['ssn']}} </td>
+                                    <td class="text-md-center"> {{$person['mobile']}} </td>
+                                    <td class="non-printable">
+                                        <a class="btn btn-primary" href="{{route('person.edit', ['ssn' => $person['ssn']])}}">تعديل</a>
+                                        <form class="d-inline" action="{{route('person.destroy', ['ssn' => $person['ssn'], 'query' => $query])}}" method="POST">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            {{ csrf_field() }}
+                                            <input type="submit" onclick="return confirm('هل انت متأكد انك تريد ان تحذف هذا الشخص ؟')" class="btn btn-danger m-lg-1" value="حذف">
+                                        </form>
+                                    </td>
                                 </tr>
                             @endforeach
                         @endif

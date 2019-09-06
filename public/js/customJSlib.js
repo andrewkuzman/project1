@@ -24,22 +24,22 @@ function checkGender(){
 function genderssn(){
     if($('#female').is(':checked')){
         return '<div class="socialStateDiv genderssn form-group row" >\n' +
-            '    <div class="col-md-6 offset-md-2">\n' +
+            '    <label for="husbandssn" class="col-md-4 col-form-label text-md-right"> الرقم القومي للزوج</label>\n' +
+            '\n' +
+            '    <div class="col-md-6">\n' +
             '        <input id="husbandssn" type="number" min="0" oninput="validity.valid||(value=\'\');" class="form-control" name="husbandssn" value="{{ old(\'husbandssn\') }}" required autocomplete="husbandssn" autofocus>\n' +
             '\n' +
             '    </div>\n' +
-            '\n' +
-            '    <label for="husbandssn" class="col-md-4 col-form-label text-md-left"> الرقم القومي للزوج</label>\n' +
             '</div>\n';
     }
     else{
         return '<div class="socialStateDiv genderssn form-group row" >\n' +
-            '    <div class="col-md-6 offset-md-2">\n' +
+            '    <label for="wifessn" class="col-md-4 col-form-label text-md-right"> الرقم القومي للزوجة</label>\n' +
+            '\n' +
+            '    <div class="col-md-6">\n' +
             '        <input id="wifessn" type="number" min="0" oninput="validity.valid||(value=\'\');" class="form-control" name="wifessn" value="{{ old(\'wifessn\') }}" required autocomplete="wifessn" autofocus>\n' +
             '\n' +
             '    </div>\n' +
-            '\n' +
-            '    <label for="wifessn" class="col-md-4 col-form-label text-md-left"> الرقم القومي للزوجة</label>\n' +
             '</div>\n';
     }
 }
@@ -52,21 +52,21 @@ function checkSocialState(){
 $(genderssn()  +
     '\n' +
 '         <div class="socialStateDiv form-group row" >\n' +
-'             <div class="col-md-6 offset-md-2">\n' +
+'             <label for="marriageDate" class="col-md-4 col-form-label text-md-right">تاريخ الزواج</label>\n' +
+'\n' +
+'             <div class="col-md-6">\n' +
 '                 <input id="marriageDate" type="date" class="date form-control" value="{{ old(\'marriageDate\') }}" name="marriageDate" required autocomplete="marriageDate" autofocus>\n' +
     '\n' +
 '             </div>\n' +
-    '\n' +
-'             <label for="marriageDate" class="col-md-4 col-form-label text-md-left">تاريخ الزواج</label>\n' +
 '         </div>\n' +
     '\n' +
 '         <div class="socialStateDiv form-group row" >\n' +
-'             <div class="col-md-6 offset-md-2">\n' +
+'             <label for="numberofChildren" class="col-md-4 col-form-label text-md-right">عدد الابناء</label>\n' +
+'\n' +
+'             <div class="col-md-6">\n' +
 '                 <input id="numberofChildren" type="number" value="0" max="15"  min="0" oninput="validity.valid||(value=\'\');" class="form-control" name="numberofChildren" value="{{ old(\'numberofChildren\') }}" required autocomplete="numberofChildren" autofocus>\n' +
     '\n' +
 '             </div>\n' +
-    '\n' +
-'             <label for="numberofChildren" class="col-md-4 col-form-label text-md-left">عدد الابناء</label>\n' +
 '         </div>\n').appendTo(".generateHusbandWifeData");
             preventFuture();
             createChildssnInput();

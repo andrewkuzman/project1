@@ -24,7 +24,7 @@ class CreatePeopleTable extends Migration
             $table->string('eduQual');
             $table->string('governorate');
             $table->string('city');
-            $table->string('Street');
+            $table->string('street');
             $table->string('building');
             $table->string('socialState');
             $table->date('marriageDate')->nullable();

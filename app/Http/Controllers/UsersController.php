@@ -29,17 +29,15 @@ class UsersController extends Controller
      */
     public function show($type)
     {
-        if (Auth::User()->isSuper == true){
-            if ($type == 'normal'){
-                $query = 'SELECT * FROM users WHERE isAdmin = 0 AND isSuper = 0';
-                $users = DB::select($query);
-                return view('users.showUsers')->with('users',$users)->with('type',$type);
-            }
-            else{
-                $query = 'SELECT * FROM users WHERE isAdmin = 1 AND isSuper = 0';
-                $users = DB::select($query);
-                return view('users.showUsers')->with('users',$users)->with('type',$type);
-            }
+        if ($type == 'normal' && (Auth::User()->isSuper == true || Auth::User()->isAdmin == true)){
+            $query = 'SELECT * FROM users WHERE isAdmin = 0 AND isSuper = 0';
+            $users = DB::select($query);
+            return view('users.showUsers')->with('users',$users)->with('type',$type);
+        }
+        else if($type == 'admins' && Auth::User()->isSuper == true){
+            $query = 'SELECT * FROM users WHERE isAdmin = 1 AND isSuper = 0';
+            $users = DB::select($query);
+            return view('users.showUsers')->with('users',$users)->with('type',$type);
         }
         else{
                 return redirect()->route('home');
@@ -52,8 +50,8 @@ class UsersController extends Controller
      */
     public function destroy($username)
     {
+        $type = DB::table('users')->where('username', $username)->value('isAdmin');
         if (Auth::User()->isSuper == true) {
-            $type = DB::table('users')->where('username', $username)->value('isAdmin');
             if ($type == 0) {
                 $type = 'normal';
             } else {
@@ -61,6 +59,14 @@ class UsersController extends Controller
             }
             DB::table('users')->where('username', $username)->delete();
             return redirect()->route('users.show', $type);
+        }
+        else if(Auth::User()->isAdmin == true){
+            if ($type == 0) {
+                DB::table('users')->where('username', $username)->delete();
+                return redirect()->route('users.show', 'normal');
+            } else {
+                return redirect()->route('home');
+            }
         }
         else{
             return redirect()->route('home');

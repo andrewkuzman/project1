@@ -49,7 +49,7 @@ class RegisterController extends Controller
      * @return void
      */
     public function showRegistrationForm() {
-        if (Auth::User()->isSuper == true){
+        if (Auth::User()->isSuper == true || Auth::User()->isAdmin == true){
             return view('auth.register');
         }
         else{

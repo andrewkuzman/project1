@@ -5,9 +5,9 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header text-md-right">لوحة التحكم</div>
+                <div class="card-header">لوحة التحكم</div>
 
-                <div class="card-body text-md-right">
+                <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
@@ -22,14 +22,14 @@
                             <li class="list-group-item">
                                 <a class="nav-link" href="{{ route('search') }}">بحث</a>
                             </li>
-                        @endif
-                        @if (Auth::User()->isSuper == true)
                             <li class="list-group-item">
                                 <a class="nav-link" href="{{ route('register') }}">انشاء حساب</a>
                             </li>
                             <li class="list-group-item">
                                 <a class="nav-link" href="{{ route('users.show', 'normal') }}">عرض المستخدمين</a>
                             </li>
+                        @endif
+                        @if (Auth::User()->isSuper == true)
                             <li class="list-group-item">
                                 <a class="nav-link" href="{{ route('users.show', 'admins') }}">عرض المشرفين</a>
                             </li>

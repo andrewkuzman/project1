@@ -6,9 +6,9 @@
             <div class="col-md-10">
                 <div class="card">
                     @if($type == 'normal')
-                        <div class="card-header text-md-right">المستخدمين</div>
+                        <div class="card-header">المستخدمين</div>
                     @else
-                        <div class="card-header text-md-right">المشرفين</div>
+                        <div class="card-header">المشرفين</div>
                     @endif
 
                     <div class="card-body text-md-right">
@@ -22,16 +22,19 @@
                     <table class="table table-striped printable printable-result">
                         <thead>
                         <tr>
-                            <th class="non-printable"></th>
-                            <th class="text-md-center" scope="col">البريد الالكتروني</th>
-                            <th class="text-md-center" scope="col">اسم المستخدم</th>
                             <th class="text-md-center" scope="col">الأسم كامل</th>
+                            <th class="text-md-center" scope="col">اسم المستخدم</th>
+                            <th class="text-md-center" scope="col">البريد الالكتروني</th>
+                            <th class="non-printable"></th>
                         </tr>
                         </thead>
                         <tbody>
                         @if($users != null)
                             @foreach ($users as $user)
                                 <tr>
+                                    <td class="text-md-center"> {{$user->name}}</td>
+                                    <td class="text-md-center"> {{$user->username}} </td>
+                                    <td class="text-md-center"> {{$user->email}} </td>
                                     <td class="non-printable">
                                         <form class="d-inline" action="{{route('users.destroy', $user->username)}}" method="POST">
                                             <input type="hidden" name="_method" value="DELETE">
@@ -39,9 +42,6 @@
                                             <input type="submit" onclick="return confirm('هل انت متأكد انك تريد ان تحذف هذا الشخص ؟')" class="btn btn-danger m-lg-1" value="حذف">
                                         </form>
                                     </td>
-                                    <td class="text-md-center"> {{$user->email}} </td>
-                                    <td class="text-md-center"> {{$user->username}} </td>
-                                    <td class="text-md-center"> {{$user->name}}</td>
                                 </tr>
                             @endforeach
                         @endif
