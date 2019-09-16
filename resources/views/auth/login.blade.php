@@ -11,6 +11,12 @@
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
 
+                            @if(session()->has('status'))
+                                <ul dir="rtl" class="text-left alert alert-success">
+                                    <li>{{ session()->get('status') }}</li>
+                                </ul>
+                            @endif
+
                             <div class="form-group row">
                                 <label for="username" class="col-md-4 col-form-label text-md-right">اسم المستخدم</label>
 

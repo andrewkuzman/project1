@@ -17,6 +17,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/passwordChange', 'Auth\ChangePasswordController@showChangeForm')->name('password.show');
+Route::post('/passwordChange', 'Auth\ChangePasswordController@changePassword')->name('password.change');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('person', 'PersonsController',
     ['only' => ['create', 'show', 'store', 'destroy', 'edit', 'update']]);

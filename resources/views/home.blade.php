@@ -33,6 +33,10 @@
                             <li class="list-group-item">
                                 <a class="nav-link" href="{{ route('users.show', 'admins') }}">عرض المشرفين</a>
                             </li>
+                        @else
+                            <li class="list-group-item">
+                                <a class="nav-link" href="{{ route('password.show') }}">تغيير كلمة السر</a>
+                            </li>
                         @endif
                     </ul>
                 </div>
