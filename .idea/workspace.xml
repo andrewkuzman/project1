@@ -3,9 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="643cd54d-7efa-4c0c-ba3f-9cccb7638b58" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/mail.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/mail.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/auth.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/auth.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/passwords.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/passwords.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/CreatePersonRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/CreatePersonRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/welcome.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/welcome.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -149,17 +148,18 @@
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/app/Http/Controllers" />
-      <recent name="$PROJECT_DIR$/resources/views/persons" />
-      <recent name="$PROJECT_DIR$/resources" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/resources/views/auth/passwords" />
       <recent name="$PROJECT_DIR$/resources/views/users" />
       <recent name="$PROJECT_DIR$/app/Http/Controllers/Auth" />
       <recent name="$PROJECT_DIR$/app/Http/Requests" />
       <recent name="$PROJECT_DIR$/resources/views/persons" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public/storage/images" />
+      <recent name="$PROJECT_DIR$/app/Http/Controllers" />
+      <recent name="$PROJECT_DIR$/resources/views/persons" />
+      <recent name="$PROJECT_DIR$/resources" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -265,7 +265,9 @@
       <workItem from="1567766038403" duration="3021000" />
       <workItem from="1568579435169" duration="171000" />
       <workItem from="1568579625697" duration="20600000" />
-      <workItem from="1568620970512" duration="7344000" />
+      <workItem from="1568620970512" duration="12641000" />
+      <workItem from="1568644554149" duration="5404000" />
+      <workItem from="1568653483699" duration="83000" />
     </task>
     <servers />
   </component>

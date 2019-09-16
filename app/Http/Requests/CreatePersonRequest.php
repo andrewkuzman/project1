@@ -54,7 +54,7 @@ class CreatePersonRequest extends FormRequest
             'building' => 'required|max:25',
             'socialState' => 'required|in:socialState_single,socialState_married,socialState_widow',
             'church' => 'required|max:35',
-            'confessFather' => 'required|alpha|max:40',
+            'confessFather' => 'required|regex:/^[\pL\s\-]+$/u|max:40',
             'personalPic' => 'required|image|max:2048',
             'servingType' => 'in:ايتام,ابتدائي,اعدادي,ثانوي,شباب,اختار,اخوة الرب,مسنين',
         ];
