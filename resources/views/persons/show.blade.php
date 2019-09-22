@@ -34,17 +34,10 @@
                         <label for="name" class="col-md-8 col-form-label text-md-left">{{$data['person']->mobile}}</label>
                     </div>
 
-                    <div class="form-group row">
-                        <label for="name" class="col-md-2 col-form-label text-md-right">البريد الالكتروني:</label>
-                        <label for="name" class="col-md-8 col-form-label text-md-left">{{$data['person']->email}}</label>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="name" class="col-md-2 col-form-label text-md-right">اسم الأم:</label>
-                        <label for="name" class="col-md-8 col-form-label text-md-left">{{$data['person']->motherName}}</label>
-                    </div>
-
                     @php
+                        if ($data['person']->email == null){
+                            $data['person']->email = 'لا يوجد';
+                        }
                         if ($data['person']->gender == "male"){
                             $gender = "ذكر";
                             $deaconLevel = $data['person']->deaconLevel;
@@ -77,6 +70,16 @@
                             $servingType = "ليس خادم";
                         }
                     @endphp
+
+                    <div class="form-group row">
+                        <label for="name" class="col-md-2 col-form-label text-md-right">البريد الالكتروني:</label>
+                        <label for="name" class="col-md-8 col-form-label text-md-left">{{$data['person']->email}}</label>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="name" class="col-md-2 col-form-label text-md-right">اسم الأم:</label>
+                        <label for="name" class="col-md-8 col-form-label text-md-left">{{$data['person']->motherName}}</label>
+                    </div>
 
                     <div class="form-group row">
                         <label for="name" class="col-md-2 col-form-label text-md-right">النوع:</label>

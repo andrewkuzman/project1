@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'andrewandy12321@gmail.com'),
-        'name' => env('MAIL_FROM_NAME', 'andrewandy12321'),
+        'address' => env('MAIL_FROM_ADDRESS', 'eng.mikhail@yahoo.com'),
+        'name' => env('MAIL_FROM_NAME', 'eng.mikhail'),
     ],
 
     /*
@@ -87,7 +87,7 @@ return [
     'username' => env('MAIL_USERNAME'),
 
     'password' => env('MAIL_PASSWORD'),
-    //ABCDEFG1234567
+
     /*
     |--------------------------------------------------------------------------
     | Sendmail System Path

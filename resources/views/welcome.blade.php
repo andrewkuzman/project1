@@ -189,66 +189,15 @@
             @endif
 
             <div class="content">
-                <p class="para">هذا الموقع تحت اشراف نيافة الانبا تكلا</p>
-                <!-- Slideshow container -->
-                <div class="slideshow-container">
-
-                    <!-- Full-width images with number and caption text -->
-                    <div class="mySlides fade">
-                        <img src="/storage/images/65678283_2173789252749762_7141852614005620736_n.jpg" style="width:100%">
-                    </div>
-
-                    <div class="mySlides fade">
-                        <img src="/storage/images/65582464_570558383475190_8395689546372612096_n.jpg" style="width:100%">
-                    </div>
-
-                    <div class="mySlides fade">
-                        <img src="/storage/images/19510506_193881461142886_8495756727287674285_n.jpg" style="width:100%">
-                    </div>
-
-                    <!-- Next and previous buttons -->
-                    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                    <a class="next" onclick="plusSlides(1)">&#10095;</a>
-                </div>
-                <br>
-
-                <!-- The dots/circles -->
-                <div style="text-align:center">
-                    <span class="dot" onclick="currentSlide(1)"></span>
-                    <span class="dot" onclick="currentSlide(2)"></span>
-                    <span class="dot" onclick="currentSlide(3)"></span>
+                <img style="margin-top: 200px;" src="/storage/images/280px-Coptic_cross.svg.jpg">
+                <p class="para">مطرانية الاقباط الاورثوزكس بدشنا<br>
+                هذا الموقع تحت رعاية ابينا الحبيب نيافة الحبر الجليل الانبا تكلا<br>اسقف دشنا و توابعها</p>
+                <div class="row">
+                    <img src="/storage/images/65678283_2173789252749762_7141852614005620736_n.jpg" style="width: 300px; height: 400px;" class="col-4">
+                    <img src="/storage/images/IMG_8737.jpg" style="width: 300px; height: 400px;" class="col-4">
+                    <img src="/storage/images/1-40.jpg" style="width: 300px; height: 400px;" class="col-4">
                 </div>
             </div>
         </div>
-        <script>
-            var slideIndex = 1;
-            showSlides(slideIndex);
-
-            // Next/previous controls
-            function plusSlides(n) {
-                showSlides(slideIndex += n);
-            }
-
-            // Thumbnail image controls
-            function currentSlide(n) {
-                showSlides(slideIndex = n);
-            }
-
-            function showSlides(n) {
-                var i;
-                var slides = document.getElementsByClassName("mySlides");
-                var dots = document.getElementsByClassName("dot");
-                if (n > slides.length) {slideIndex = 1}
-                if (n < 1) {slideIndex = slides.length}
-                for (i = 0; i < slides.length; i++) {
-                    slides[i].style.display = "none";
-                }
-                for (i = 0; i < dots.length; i++) {
-                    dots[i].className = dots[i].className.replace(" active", "");
-                }
-                slides[slideIndex-1].style.display = "block";
-                dots[slideIndex-1].className += " active";
-            }
-        </script>
     </body>
 </html>

@@ -252,12 +252,34 @@
                         </div>
 
                         <div class="searchBirthDateDiv form-group row jumbotron" hidden>
-                            <label for="birthDateSearch" class="col-md-4 col-form-label text-md-right">تاريخ الميلاد</label>
+                            <label for="birthDateSearchYear" class="col-md-4 col-form-label text-md-right">سنة</label>
 
                             <div class="col-md-6">
-                                <input id="birthDateSearch" type="date" class="date form-control @error('birthDateSearch') is-invalid @enderror" name="birthDateSearch" value="{{ old('birthDateSearch') }}" autocomplete="birthDateSearch" autofocus>
+                                <input id="birthDateSearchYear" type="number" min="1" class="date form-control @error('birthDateSearch') is-invalid @enderror" name="birthDateSearchYear" value="{{ old('birthDateSearchYear') }}" autocomplete="birthDateSearchYear" autofocus>
 
-                                @error('birthDateSearch')
+                                @error('birthDateSearchYear')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <label for="birthDateSearchMonth" class="col-md-4 col-form-label text-md-right">شهر</label>
+
+                            <div class="col-md-6">
+                                <input id="birthDateSearchMonth" type="number" min="1" max="12" class="date form-control @error('birthDateSearchMonth') is-invalid @enderror" name="birthDateSearchMonth" value="{{ old('birthDateSearchMonth') }}" autocomplete="birthDateSearchMonth" autofocus>
+
+                                @error('birthDateSearchMonth')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <label for="birthDateSearchDay" class="col-md-4 col-form-label text-md-right">يوم</label>
+
+                            <div class="col-md-6">
+                                <input id="birthDateSearchDay" type="number" min="1" max="31" class="date form-control @error('birthDateSearchDay') is-invalid @enderror" name="birthDateSearchDay" value="{{ old('birthDateSearchDay') }}" autocomplete="birthDateSearchDay" autofocus>
+
+                                @error('birthDateSearchDay')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -415,13 +437,35 @@
                         </div>
 
                         <div class="form-group row jumbotron searchMarriageDateDiv" hidden>
-                            <label for="marriageDateSearch" class="col-md-4 col-form-label text-md-right">تاريخ الزواج</label>
+                            <label for="marriageDateSearchYear" class="col-md-4 col-form-label text-md-right">سنة</label>
 
                             <div class="col-md-6">
-                                <input id="marriageDateSearch" type="date" class="date form-control @error('marriageDateSearch') is-invalid @enderror" name="marriageDateSearch" value="{{ old('marriageDateSearch') }}" autocomplete="marriageDateSearch" autofocus>
+                                <input id="marriageDateSearchYear" type="number" min="1" class="date form-control @error('marriageDateSearch') is-invalid @enderror" name="marriageDateSearchYear" value="{{ old('marriageDateSearchYear') }}" autocomplete="marriageDateSearchYear" autofocus>
 
-                                @error('marriageDateSearch')
-                                    <span class="invalid-feedback" role="alert">
+                                @error('marriageDateSearchYear')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <label for="marriageDateSearchMonth" class="col-md-4 col-form-label text-md-right">شهر</label>
+
+                            <div class="col-md-6">
+                                <input id="marriageDateSearchMonth" type="number" min="1" max="12" class="date form-control @error('marriageDateSearchMonth') is-invalid @enderror" name="marriageDateSearchMonth" value="{{ old('marriageDateSearchMonth') }}" autocomplete="marriageDateSearchMonth" autofocus>
+
+                                @error('marriageDateSearchMonth')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <label for="marriageDateSearchDay" class="col-md-4 col-form-label text-md-right">يوم</label>
+
+                            <div class="col-md-6">
+                                <input id="marriageDateSearchDay" type="number" min="1" max="31" class="date form-control @error('marriageDateSearchDay') is-invalid @enderror" name="marriageDateSearchDay" value="{{ old('marriageDateSearchDay') }}" autocomplete="marriageDateSearchDay" autofocus>
+
+                                @error('marriageDateSearchDay')
+                                <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror

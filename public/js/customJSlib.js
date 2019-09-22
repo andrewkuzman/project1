@@ -92,12 +92,11 @@ function createChildssnInput(){
         $(".generatessn").remove();
         for (var i = 1; i <= number; i++) {
             $(' <div class="generatessn socialStateDiv form-group row">\n\
-                <div class="col-md-6 offset-md-2">\n\
+                <label for="childssn'+i+'" class="col-md-4 col-form-label text-md-right"> الرقم القومي للابن/الابنة '+childNumber[i-1]+'</label>\n\
+                <div class="col-md-6">\n\
                     <input id="childssn'+i+'" type="number" min="0" oninput="validity.valid||(value='+"''"+');" class="form-control" name="childssn'+i+'" value="{{ old('+"childssn"+i+') }}" required autocomplete="childssn'+i+'" autofocus>\n\
                     \n\
                 </div>\n\
-                \n\
-                <label for="childssn'+i+'" class="col-md-4 col-form-label text-md-left"> الرقم القومي للابن/الابنة '+childNumber[i-1]+'</label>\n\
             </div>\n\
             \n\
         ').appendTo(".generateChildrenssnDiv");

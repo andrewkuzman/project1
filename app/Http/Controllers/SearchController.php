@@ -117,7 +117,27 @@ class SearchController extends Controller
     public function searchByBirthdate(){
         $data = request()->all();
         if ($data['birthDateSearchOption'] == "birthDateSearchYes"){
-            return ('birthDate = "'.$data['birthDateSearch'].'"');
+            if ($data['birthDateSearchYear'] != null && $data['birthDateSearchMonth'] != null && $data['birthDateSearchDay'] != null){
+                return ('birthDate = "'.$data['birthDateSearchYear'].'-'.sprintf("%02d", $data['birthDateSearchMonth']).'-'.sprintf("%02d", $data['birthDateSearchDay']).'"');
+            }
+            else if($data['birthDateSearchYear'] != null && $data['birthDateSearchMonth'] == null && $data['birthDateSearchDay'] == null){
+                return ('birthDate LIKE "'.$data['birthDateSearchYear'].'-%"');
+            }
+            else if($data['birthDateSearchYear'] != null && $data['birthDateSearchMonth'] != null && $data['birthDateSearchDay'] == null){
+                return ('birthDate LIKE "'.$data['birthDateSearchYear'].'-'.sprintf("%02d", $data['birthDateSearchMonth']).'-%"');
+            }
+            else if($data['birthDateSearchYear'] != null && $data['birthDateSearchMonth'] == null && $data['birthDateSearchDay'] != null){
+                return ('birthDate LIKE "'.$data['birthDateSearchYear'].'-%-'.sprintf("%02d", $data['birthDateSearchDay']).'"');
+            }
+            else if($data['birthDateSearchYear'] == null && $data['birthDateSearchMonth'] != null && $data['birthDateSearchDay'] == null){
+                return ('birthDate LIKE "%-'.sprintf("%02d", $data['birthDateSearchMonth']).'-%"');
+            }
+            else if($data['birthDateSearchYear'] == null && $data['birthDateSearchMonth'] != null && $data['birthDateSearchDay'] != null){
+                return ('birthDate LIKE "%-'.sprintf("%02d", $data['birthDateSearchMonth']).'-'.sprintf("%02d", $data['birthDateSearchDay']).'"');
+            }
+            else if($data['birthDateSearchYear'] == null && $data['birthDateSearchMonth'] == null && $data['birthDateSearchDay'] != null){
+                return ('birthDate LIKE "%-'.sprintf("%02d", $data['birthDateSearchDay']).'"');
+            }
         }
         else{
             return (true);
@@ -216,8 +236,28 @@ class SearchController extends Controller
 
     public function searchByMarriageDate(){
         $data = request()->all();
-        if (request()->has('marriageDateSearchOption') && $data['marriageDateSearchOption'] == "marriageDateSearchYes"){
-            return ('marriageDate = "'.$data['marriageDateSearch'].'"');
+        if ($data['marriageDateSearchOption'] == "marriageDateSearchYes"){
+            if ($data['marriageDateSearchYear'] != null && $data['marriageDateSearchMonth'] != null && $data['marriageDateSearchDay'] != null){
+                return ('marriageDate = "'.$data['marriageDateSearchYear'].'-'.sprintf("%02d", $data['marriageDateSearchMonth']).'-'.sprintf("%02d", $data['marriageDateSearchDay']).'"');
+            }
+            else if($data['marriageDateSearchYear'] != null && $data['marriageDateSearchMonth'] == null && $data['marriageDateSearchDay'] == null){
+                return ('marriageDate LIKE "'.$data['marriageDateSearchYear'].'-%"');
+            }
+            else if($data['marriageDateSearchYear'] != null && $data['marriageDateSearchMonth'] != null && $data['marriageDateSearchDay'] == null){
+                return ('marriageDate LIKE "'.$data['marriageDateSearchYear'].'-'.sprintf("%02d", $data['marriageDateSearchMonth']).'-%"');
+            }
+            else if($data['marriageDateSearchYear'] != null && $data['marriageDateSearchMonth'] == null && $data['marriageDateSearchDay'] != null){
+                return ('marriageDate LIKE "'.$data['marriageDateSearchYear'].'-%-'.sprintf("%02d", $data['marriageDateSearchDay']).'"');
+            }
+            else if($data['marriageDateSearchYear'] == null && $data['marriageDateSearchMonth'] != null && $data['marriageDateSearchDay'] == null){
+                return ('marriageDate LIKE "%-'.sprintf("%02d", $data['marriageDateSearchMonth']).'-%"');
+            }
+            else if($data['marriageDateSearchYear'] == null && $data['marriageDateSearchMonth'] != null && $data['marriageDateSearchDay'] != null){
+                return ('marriageDate LIKE "%-'.sprintf("%02d", $data['marriageDateSearchMonth']).'-'.sprintf("%02d", $data['marriageDateSearchDay']).'"');
+            }
+            else if($data['marriageDateSearchYear'] == null && $data['marriageDateSearchMonth'] == null && $data['marriageDateSearchDay'] != null){
+                return ('marriageDate LIKE "%-'.sprintf("%02d", $data['marriageDateSearchDay']).'"');
+            }
         }
         else{
             return (true);

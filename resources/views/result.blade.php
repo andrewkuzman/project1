@@ -34,7 +34,11 @@
                             @foreach ($result as $person)
                                 <tr>
                                     <td class="text-md-center"> <a class="text-decoration-none text-dark" href="{{route('person.show', ['ssn' => $person['ssn']])}}">{{$person['fullName']}}</a> </td>
-                                    <td class="text-md-center"> {{$person['email']}} </td>
+                                    @if (isset($person['email']))
+                                        <td class="text-md-center"> {{$person['email']}} </td>
+                                    @else
+                                        <td class="text-md-center">لا يوجد</td>
+                                    @endif
                                     <td class="text-md-center"> {{$person['ssn']}} </td>
                                     <td class="text-md-center"> {{$person['mobile']}} </td>
                                     <td class="non-printable">
